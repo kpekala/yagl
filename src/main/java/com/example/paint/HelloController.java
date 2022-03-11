@@ -3,12 +3,14 @@ package com.example.paint;
 import com.example.paint.yagl.Drawable;
 import com.example.paint.yagl.Engine;
 import com.example.paint.yagl.Pixel;
+import com.example.paint.yagl.model.Samples;
 import com.example.paint.yagl.model.basic.Color4i;
 import com.example.paint.yagl.model.basic.Vector2f;
 import com.example.paint.yagl.model.basic.Vector2i;
 import com.example.paint.yagl.model.basic.Vector3f;
 import com.example.paint.yagl.model.complex.Polygon;
 import com.example.paint.yagl.model.complex.Triangle;
+import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -26,37 +28,34 @@ public class HelloController implements Drawable {
     }
 
     private void mainLoop() {
-        Polygon p1 = new Polygon(new float[][]{
-                {2,-2,4},
-                {2,-2,8},
-                {-2,-2,8},
-                {-2,-2,4},
-        });
-        Polygon p2 = new Polygon(new float[][]{
-                {2, 2,4},
-                {2, 2,8},
-                {-2,2,8},
-                {-2,2,4},
-        });
 
-        Polygon p3 = new Polygon(new float[][]{
-                {-2, 2,4},
-                {-2, 2,8},
-                {-2,-2,8},
-                {-2,-2,4},
-        });
-        Polygon p4 = new Polygon(new float[][]{
-                {2, 2,4},
-                {2, 2,8},
-                {2,-2,8},
-                {2,-2,4},
-        });
+        Polygon[] cube = Samples.getCube();
+
         new Thread(() -> {
-            engine.drawPolygon(p1);
-            engine.drawPolygon(p2);
-            engine.drawPolygon(p3);
-            engine.drawPolygon(p4);
+            while (true){
+                move(cube, new Vector3f(0.05f,0.05f,0.05f));
+                Platform.runLater(() ->{
+                    clearCanvas();
+                    for(var polygon: cube){
+                        engine.drawPolygon(polygon);
+                    }
+                });
+                try {
+                    Thread.sleep(40);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }).start();
+    }
+
+    private void move(Polygon[] cube, Vector3f direction) {
+        for(Polygon p: cube){
+            for(int i=0; i<p.vertices.length; i++){
+                Vector3f v = p.vertices[i];
+                p.vertices[i] = v.add(direction);
+            }
+        }
     }
 
     @Override
@@ -67,13 +66,16 @@ public class HelloController implements Drawable {
 
     @Override
     public void drawLine(Vector2f point1, Vector2f point2, Vector3f color) {
-        //graphicsContext.setLineWidth(5);
-        System.out.println(point1.x + " " + point1.y + " " + point2.x +  " " + point2.y);
         graphicsContext.strokeLine(point1.x, point1.y, point2.x, point2.y);
     }
 
     @Override
     public Vector2f screenSize() {
         return new Vector2f((float)canvas.getWidth(),(float)canvas.getHeight());
+    }
+
+    @Override
+    public void clearCanvas() {
+        graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }
 }

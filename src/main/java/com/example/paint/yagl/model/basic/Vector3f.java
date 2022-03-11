@@ -22,4 +22,8 @@ public class Vector3f {
         this.y = that.y;
         this.z = that.z;
     }
+
+    public Vector3f add(Vector3f other){
+        return new Vector3f(x + other.x, y + other.y,z+ other.z);
+    }
 }
