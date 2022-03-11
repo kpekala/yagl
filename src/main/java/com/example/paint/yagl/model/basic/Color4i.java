@@ -1,4 +1,4 @@
-package com.example.paint.yagl.model;
+package com.example.paint.yagl.model.basic;
 
 public class Color4i {
     public int r;

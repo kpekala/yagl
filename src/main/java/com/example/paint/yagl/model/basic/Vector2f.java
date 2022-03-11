@@ -1,4 +1,4 @@
-package com.example.paint.yagl.model;
+package com.example.paint.yagl.model.basic;
 
 public class Vector2f {
     public float x, y;

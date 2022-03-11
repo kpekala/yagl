@@ -1,7 +1,7 @@
 package com.example.paint.yagl;
 
 
-import com.example.paint.yagl.model.Color4i;
+import com.example.paint.yagl.model.basic.Color4i;
 
 public class Pixel {
 
