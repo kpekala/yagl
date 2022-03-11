@@ -7,6 +7,7 @@ import com.example.paint.yagl.model.basic.Color4i;
 import com.example.paint.yagl.model.basic.Vector2f;
 import com.example.paint.yagl.model.basic.Vector2i;
 import com.example.paint.yagl.model.basic.Vector3f;
+import com.example.paint.yagl.model.complex.Polygon;
 import com.example.paint.yagl.model.complex.Triangle;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -25,10 +26,36 @@ public class HelloController implements Drawable {
     }
 
     private void mainLoop() {
-        System.out.println("Siema");
-        Triangle t = new Triangle(new Vector3f(2,2,3),new Vector3f(-2,2,3),new Vector3f(0,3,3));
+        Polygon p1 = new Polygon(new float[][]{
+                {2,-2,4},
+                {2,-2,8},
+                {-2,-2,8},
+                {-2,-2,4},
+        });
+        Polygon p2 = new Polygon(new float[][]{
+                {2, 2,4},
+                {2, 2,8},
+                {-2,2,8},
+                {-2,2,4},
+        });
+
+        Polygon p3 = new Polygon(new float[][]{
+                {-2, 2,4},
+                {-2, 2,8},
+                {-2,-2,8},
+                {-2,-2,4},
+        });
+        Polygon p4 = new Polygon(new float[][]{
+                {2, 2,4},
+                {2, 2,8},
+                {2,-2,8},
+                {2,-2,4},
+        });
         new Thread(() -> {
-            engine.drawTriangle(t);
+            engine.drawPolygon(p1);
+            engine.drawPolygon(p2);
+            engine.drawPolygon(p3);
+            engine.drawPolygon(p4);
         }).start();
     }
 

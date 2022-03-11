@@ -3,7 +3,7 @@ package com.example.paint.yagl;
 import com.example.paint.yagl.model.Transform;
 import com.example.paint.yagl.model.basic.Vector2f;
 import com.example.paint.yagl.model.basic.Vector3f;
-import com.example.paint.yagl.model.complex.Triangle;
+import com.example.paint.yagl.model.complex.Polygon;
 
 import java.lang.Math;
 import java.util.Arrays;
@@ -24,26 +24,31 @@ public class Engine {
         defaultColor = new Vector3f(1,1,1);
     }
 
-    public void drawTriangle(Triangle triangle){
-        Triangle t = Transform.perspective(triangle);
-        Vector3f[] vs = t.vs;
-        if (inScreen(t)){
-            changeCoordinates(t);
-            drawable.drawLine(vs[0].to2(),vs[1].to2(),defaultColor);
-            drawable.drawLine(vs[1].to2(),vs[2].to2(),defaultColor);
-            drawable.drawLine(vs[0].to2(),vs[2].to2(),defaultColor);
+    public void drawPolygon(Polygon p){
+        Polygon polygon = Transform.perspective(p);
+        if (inScreen(polygon)){
+            changeCoordinates(polygon);
+            Vector3f[] vs = polygon.vertices;
+            for(int i=0; i<vs.length; i++){
+                drawable.drawLine(vs[i].to2(),vs[(i+1)%vs.length].to2(),defaultColor);
+            }
         }
     }
 
-    private void changeCoordinates(Triangle t) {
+    private void changeCoordinates(Polygon p) {
         Vector2f canvasCenter = new Vector2f(size.x/2, size.y/2);
-        for(Vector3f v: t.vs){
-            v.x = canvasCenter.x - v.x * scaleFactor;
-            v.y = canvasCenter.y - v.y * scaleFactor;
+        for(int i=0; i<p.vertices.length; i++){
+            p.vertices[i] = screenPosition(p.vertices[i],canvasCenter);
         }
     }
 
-    private boolean inScreen(Triangle t) {
-        return Arrays.stream(t.vs).allMatch(p -> Math.abs(p.x) <= Math.abs(p.z) && Math.abs(p.y) <= Math.abs(p.z));
+    private Vector3f screenPosition(Vector3f v, Vector2f canvasCenter) {
+        return new Vector3f(canvasCenter.x + v.x * scaleFactor,
+                canvasCenter.y - v.y*scaleFactor, v.z);
+    }
+
+    private boolean inScreen(Polygon pol) {
+        return Arrays.stream(pol.vertices).allMatch(p -> Math.abs(p.x) <= Math.abs(p.z)
+                && Math.abs(p.y) <= Math.abs(p.z));
     }
 }
