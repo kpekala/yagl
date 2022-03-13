@@ -26,4 +26,7 @@ public class Vector3f {
     public Vector3f add(Vector3f other){
         return new Vector3f(x + other.x, y + other.y,z+ other.z);
     }
+    public Vector3f subtract(Vector3f other){
+        return new Vector3f(x - other.x, y - other.y,z- other.z);
+    }
 }

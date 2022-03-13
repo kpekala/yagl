@@ -12,11 +12,11 @@ public class Engine {
     private final Drawable drawable;
     private final Vector3f defaultColor;
 
-    private Vector3f focalPoint = new Vector3f(0,0,0);
-    private Vector3f screenPlane = new Vector3f(0,0,1);
+    private final Vector3f focalPoint = new Vector3f(0,0,0);
+    private final Vector3f screenPlane = new Vector3f(0,0,1);
 
-    private Vector2f size;
-    private float scaleFactor = 100;
+    private final Vector2f size;
+    private float scaleFactor = 130;
 
     public Engine(Drawable drawable, Vector2f size){
         this.drawable = drawable;

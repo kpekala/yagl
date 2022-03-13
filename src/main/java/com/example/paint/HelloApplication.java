@@ -12,6 +12,9 @@ import javafx.stage.WindowEvent;
 import java.io.IOException;
 
 public class HelloApplication extends Application {
+
+    public boolean isPressed = false;
+
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
@@ -20,6 +23,8 @@ public class HelloApplication extends Application {
             Platform.exit();
             System.exit(0);
         });
+        //scene.setOnKeyPressed(event -> isPressed = true);
+        //scene.setOnKeyReleased(event -> isPressed = false);
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
