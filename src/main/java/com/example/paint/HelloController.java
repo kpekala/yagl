@@ -12,6 +12,7 @@ import com.example.paint.yagl.model.complex.Polygon;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
 
@@ -32,10 +33,7 @@ public class HelloController implements Drawable {
         Transform.move(cube,new Vector3f(0,0,3f));
         new Thread(() -> {
             while (true){
-                rotate(cube, new Vector3f(0.01f,0,3f));
-                Platform.runLater(() ->{
-                    draw();
-                });
+                onUpdate();
                 try {
                     Thread.sleep(40);
                 } catch (InterruptedException e) {
@@ -43,6 +41,18 @@ public class HelloController implements Drawable {
                 }
             }
         }).start();
+    }
+
+    private void onUpdate() {
+        if (Input.isPressed(KeyCode.R)) {
+            rotate(cube, new Vector3f(0.03f,0,0));
+        }
+        if (Input.isPressed(KeyCode.T)){
+            rotate(cube, new Vector3f(-0.03f,0,0));
+        }
+        Platform.runLater(() ->{
+            draw();
+        });
     }
 
     private void draw() {

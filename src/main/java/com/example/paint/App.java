@@ -2,18 +2,22 @@ package com.example.paint;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 
-public class HelloApplication extends Application {
+public class App extends Application {
 
-    public boolean isPressed = false;
+    private static App instance;
+    public static App getInstance(){
+        return instance;
+    }
+    public App(){
+        System.out.println("siema");
+        instance = this;
+    }
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -23,8 +27,8 @@ public class HelloApplication extends Application {
             Platform.exit();
             System.exit(0);
         });
-        //scene.setOnKeyPressed(event -> isPressed = true);
-        //scene.setOnKeyReleased(event -> isPressed = false);
+        scene.setOnKeyPressed(event -> Input.onKeyPressed(event.getCode()));
+        scene.setOnKeyReleased(event -> Input.onKeyReleased(event.getCode()));
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
