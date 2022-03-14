@@ -14,14 +14,18 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 
 
 public class HelloController implements Drawable {
 
     public Canvas canvas;
+    public Text fpsCounter;
     private GraphicsContext graphicsContext;
     private Engine engine;
     private final Polygon[] cube = Samples.getCube();
+
+    private float lastTimeCHeck = 0f;
 
     public void initialize(){
         graphicsContext = canvas.getGraphicsContext2D();
@@ -62,10 +66,23 @@ public class HelloController implements Drawable {
     }
 
     private void draw() {
+        updateFPSCounter();
         clearCanvas();
         for(var polygon: cube){
             engine.drawPolygon(polygon);
         }
+    }
+
+    private void updateFPSCounter() {
+        if(lastTimeCHeck != 0.0f){
+            double diffMillis = System.currentTimeMillis() - lastTimeCHeck;
+            if (diffMillis == 0.0) diffMillis = 1;
+            double diffSec =  diffMillis / 1000f;
+           // System.out.println(diffSec);
+            int fps = (int) (1/diffSec);
+            fpsCounter.setText(fps + " fps");
+        }
+         lastTimeCHeck = System.currentTimeMillis();
     }
 
     private void rotate(Polygon[] cube, Vector3f rotation){
