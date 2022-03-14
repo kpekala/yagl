@@ -7,19 +7,12 @@ import com.example.paint.yagl.model.Samples;
 import com.example.paint.yagl.model.Transform;
 import com.example.paint.yagl.model.basic.Color4i;
 import com.example.paint.yagl.model.basic.Vector2f;
-import com.example.paint.yagl.model.basic.Vector2i;
 import com.example.paint.yagl.model.basic.Vector3f;
 import com.example.paint.yagl.model.complex.Polygon;
-import com.example.paint.yagl.model.complex.Triangle;
-import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventType;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
-
-import java.security.Key;
 
 
 public class HelloController implements Drawable {
@@ -36,16 +29,12 @@ public class HelloController implements Drawable {
     }
 
     private void mainLoop() {
-        move(cube,new Vector3f(0,0,3f));
+        Transform.move(cube,new Vector3f(0,0,3f));
         new Thread(() -> {
             while (true){
-                //move(cube, new Vector3f(0.1f,0,0f));
                 rotate(cube, new Vector3f(0.01f,0,3f));
                 Platform.runLater(() ->{
-                    clearCanvas();
-                    for(var polygon: cube){
-                        engine.drawPolygon(polygon);
-                    }
+                    draw();
                 });
                 try {
                     Thread.sleep(40);
@@ -56,23 +45,17 @@ public class HelloController implements Drawable {
         }).start();
     }
 
-    private void move(Polygon[] cube, Vector3f direction) {
-        for(Polygon p: cube){
-            for(int i=0; i<p.vertices.length; i++){
-                Vector3f v = p.vertices[i];
-                p.vertices[i] = v.add(direction);
-            }
+    private void draw() {
+        clearCanvas();
+        for(var polygon: cube){
+            engine.drawPolygon(polygon);
         }
     }
 
+
     private void rotate(Polygon[] cube, Vector3f rotation){
         Vector3f rotationCenter = new Vector3f(0,0,9);
-        for(Polygon p: cube){
-            for(int i=0; i<p.vertices.length; i++){
-                Vector3f v = p.vertices[i];
-                p.vertices[i] = Transform.rotate(v,rotation,rotationCenter);
-            }
-        }
+        Transform.rotateMesh(cube,rotation,rotationCenter);
     }
 
     @Override
