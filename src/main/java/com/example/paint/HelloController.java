@@ -25,7 +25,7 @@ public class HelloController implements Drawable {
     private Engine engine;
     private final Polygon[] cube = Samples.getCube();
 
-    private float lastTimeCHeck = 0f;
+    private long lastTimeCheck = 0;
 
     public void initialize(){
         graphicsContext = canvas.getGraphicsContext2D();
@@ -39,7 +39,7 @@ public class HelloController implements Drawable {
             while (true){
                 onUpdate();
                 try {
-                    Thread.sleep(40);
+                    Thread.sleep(20);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -66,7 +66,7 @@ public class HelloController implements Drawable {
     }
 
     private void draw() {
-        updateFPSCounter();
+        //updateFPSCounter();
         clearCanvas();
         for(var polygon: cube){
             engine.drawPolygon(polygon);
@@ -74,15 +74,13 @@ public class HelloController implements Drawable {
     }
 
     private void updateFPSCounter() {
-        if(lastTimeCHeck != 0.0f){
-            double diffMillis = System.currentTimeMillis() - lastTimeCHeck;
-            if (diffMillis == 0.0) diffMillis = 1;
+        if(lastTimeCheck != 0.0f){
+            long diffMillis = System.currentTimeMillis() - lastTimeCheck;
             double diffSec =  diffMillis / 1000f;
-           // System.out.println(diffSec);
             int fps = (int) (1/diffSec);
             fpsCounter.setText(fps + " fps");
         }
-         lastTimeCHeck = System.currentTimeMillis();
+         lastTimeCheck = System.currentTimeMillis();
     }
 
     private void rotate(Polygon[] cube, Vector3f rotation){
