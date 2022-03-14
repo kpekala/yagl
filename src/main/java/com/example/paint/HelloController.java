@@ -44,11 +44,17 @@ public class HelloController implements Drawable {
     }
 
     private void onUpdate() {
-        if (Input.isPressed(KeyCode.R)) {
+        if (Input.isPressed(KeyCode.W)) {
+            rotate(cube, new Vector3f(-0.03f,0,0));
+        }
+        if (Input.isPressed(KeyCode.S)){
             rotate(cube, new Vector3f(0.03f,0,0));
         }
-        if (Input.isPressed(KeyCode.T)){
-            rotate(cube, new Vector3f(-0.03f,0,0));
+        if (Input.isPressed(KeyCode.A)) {
+            rotate(cube, new Vector3f(0,-0.03f,0));
+        }
+        if (Input.isPressed(KeyCode.D)){
+            rotate(cube, new Vector3f(0,0.03f,0));
         }
         Platform.runLater(() ->{
             draw();
@@ -61,7 +67,6 @@ public class HelloController implements Drawable {
             engine.drawPolygon(polygon);
         }
     }
-
 
     private void rotate(Polygon[] cube, Vector3f rotation){
         Vector3f rotationCenter = new Vector3f(0,0,9);
@@ -77,11 +82,6 @@ public class HelloController implements Drawable {
     @Override
     public void drawLine(Vector2f point1, Vector2f point2, Vector3f color) {
         graphicsContext.strokeLine(point1.x, point1.y, point2.x, point2.y);
-    }
-
-    @Override
-    public Vector2f screenSize() {
-        return new Vector2f((float)canvas.getWidth(),(float)canvas.getHeight());
     }
 
     @Override

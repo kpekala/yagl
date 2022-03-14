@@ -15,13 +15,28 @@ public class Transform {
     }
 
     public static Vector3f rotateVertex(Vector3f v, Vector3f rot, Vector3f center){
-        float angle = rot.x;
         Vector3f centered = v.subtract(center);
-        Vector3f rotatedVertex = new Vector3f(centered.x,
-                centered.y*cos(angle)+ centered.z*sin(angle),
-                -centered.y*sin(angle) + centered.z * cos(angle));
+        Vector3f newVertex = centered;
+        if (rot.x != 0.0f){
+            float a = rot.x;
+            newVertex = new Vector3f(newVertex.x,
+                    newVertex.y*cos(a)+ newVertex.z*sin(a),
+                    -newVertex.y*sin(a) + newVertex.z * cos(a));
+        }if(rot.y != 0.0f){
+            float a = rot.y;
+            newVertex = new Vector3f(newVertex.x*cos(a)- newVertex.z*sin(a),
+                    newVertex.y,
+                    newVertex.x*sin(a)+ newVertex.z*cos(a));
+        }
+        if(rot.z != 0.0f){
+            float a = rot.y;
+            newVertex = new Vector3f(newVertex.x*cos(a)+ newVertex.y*sin(a),
+                    -newVertex.x*sin(a)+ newVertex.y*cos(a),
+                    newVertex.z);
+        }
+
         Vector3f diff = v.subtract(centered);
-        return rotatedVertex.add(diff);
+        return newVertex.add(diff);
     }
 
     public static void rotateMesh(Polygon[] polygons, Vector3f rot, Vector3f center){
