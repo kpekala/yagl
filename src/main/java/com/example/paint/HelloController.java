@@ -69,7 +69,8 @@ public class HelloController implements Drawable {
         //updateFPSCounter();
         clearCanvas();
         for(var polygon: cube){
-            engine.drawPolygon(polygon);
+            //engine.drawPolygonEdges(polygon);
+            engine.fillPolygon(polygon);
         }
     }
 
