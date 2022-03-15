@@ -70,7 +70,10 @@ public class Polygon {
                 if (coefs[i].x == 0){
                     xs.add(vertices[i].x);
                 }else{
-                    xs.add(Maths.fParameter(coefs[i].x,coefs[i].y,yHeight));
+                    if (Float.isFinite(coefs[i].x))
+                        xs.add(Maths.fParameter(coefs[i].x,coefs[i].y,yHeight));
+                    else
+                        xs.add(vertices[i].x);
                 }
             }
         }
