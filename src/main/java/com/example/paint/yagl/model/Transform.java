@@ -9,7 +9,7 @@ public class Transform {
         Polygon p = new Polygon(polygon);
         for(int i=0; i<p.vertices.length; i++){
             Vector3f v = p.vertices[i];
-            p.vertices[i] = new Vector3f(v.x/v.z,v.y/v.z,1);
+            p.vertices[i] = new Vector3f(v.x/v.z,v.y/v.z,v.z);
         }
         p.update();
         return p;
@@ -58,6 +58,14 @@ public class Transform {
             }
             p.update();
         }
+    }
+
+    public static Vector3f between(Vector3f v1, Vector3f v2, float x){
+        float xDiff = Math.abs(x - v1.x);
+        float yDiff = Math.abs(v1.y - v2.y);
+        float zDiff = Math.abs(v1.z - v2.z);
+        float prop =  (x - Math.min(v1.x,v2.x))/xDiff;
+        return new Vector3f(x,Math.min(v1.y,v2.y) + prop * yDiff,Math.min(v1.z,v2.z) + prop * zDiff);
     }
 
     public static float sin(float numb){

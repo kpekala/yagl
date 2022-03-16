@@ -6,12 +6,15 @@ import com.example.paint.yagl.model.basic.Vector3f;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Polygon {
     public final Vector3f[] vertices;
     public Vector2f[] coefs;
     private int n;
+
+    private float[] planeCoefs = new float[4];
 
     public float yMin, yMax;
 
@@ -21,6 +24,7 @@ public class Polygon {
         this.yMin = that.yMin;
         this.coefs = that.coefs.clone();
         this.n = that.n;
+        this.planeCoefs = that.planeCoefs;
     }
 
     public Polygon(float[][] data){
@@ -35,8 +39,8 @@ public class Polygon {
         coefs = new Vector2f[n];
         this.n = n;
 
-        computeCoefficients();
         findMinAndMax();
+        computeCoefficients();
     }
 
     private void findMinAndMax() {
@@ -56,11 +60,16 @@ public class Polygon {
             float b = v1.y - a*v1.x;
             coefs[i] = new Vector2f(a,b);
         }
+        planeCoefs = Maths.planeCoefficients(vertices[0], vertices[1],vertices[2]);
+    }
+
+    public float zValueAtPoint(float x, float y){
+        return Maths.zPlaneValue(planeCoefs,x,y);
     }
 
     public void update(){
-        computeCoefficients();
         findMinAndMax();
+        computeCoefficients();
     }
 
     public List<Float> findIntersections(int yHeight){
@@ -77,6 +86,7 @@ public class Polygon {
                 }
             }
         }
+        Collections.sort(xs);
         return xs;
     }
 
@@ -85,5 +95,7 @@ public class Polygon {
         Vector3f v2 = vertices[(edgeIndex+1)%n];
         return (y >= v1.y && y <= v2.y) || (y >= v2.y && y <= v1.y);
     }
+
+
 
 }

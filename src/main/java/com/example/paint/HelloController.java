@@ -24,6 +24,7 @@ public class HelloController implements Drawable {
     private GraphicsContext graphicsContext;
     private Engine engine;
     private final Polygon[] cube = Samples.getCube();
+    private final Polygon[] cube1 = Samples.getCube();
 
     private long lastTimeCheck = 0;
 
@@ -35,6 +36,7 @@ public class HelloController implements Drawable {
 
     private void mainLoop() {
         Transform.move(cube,new Vector3f(0,0,3f));
+        Transform.move(cube1,new Vector3f(4,0,2.5f));
         new Thread(() -> {
             while (true){
                 onUpdate();
@@ -67,10 +69,14 @@ public class HelloController implements Drawable {
 
     private void draw() {
         //updateFPSCounter();
-        clearCanvas();
+        engine.clearView();
         for(var polygon: cube){
             //engine.drawPolygonEdges(polygon);
-            engine.fillPolygon(polygon);
+            engine.fillPolygon(polygon, new Vector3f(1,0,0));
+        }
+        for(var polygon: cube1){
+            //engine.drawPolygonEdges(polygon);
+            engine.fillPolygon(polygon, new Vector3f(0,1,0));
         }
     }
 
@@ -90,9 +96,8 @@ public class HelloController implements Drawable {
     }
 
     @Override
-    public void drawPixel(Pixel pixel) {
-        Color4i color = pixel.color;
-        graphicsContext.getPixelWriter().setColor(pixel.x, pixel.y, Color.rgb(color.r,color.g,color.b));
+    public void drawPixel(Vector2f v, Vector3f color) {
+        graphicsContext.getPixelWriter().setColor((int) v.x, (int) v.y, Color.color(color.x,color.y,color.z));
     }
 
     @Override
