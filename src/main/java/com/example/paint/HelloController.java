@@ -16,6 +16,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.concurrent.atomic.AtomicIntegerArray;
+
 
 public class HelloController implements Drawable {
 
@@ -26,6 +30,8 @@ public class HelloController implements Drawable {
     private final Polygon[] cube = Samples.getCube();
     private final Polygon[] cube1 = Samples.getCube();
 
+    private final int[] fpss = new int[40];
+    private int fpsIndex = 0;
     private long lastTimeCheck = 0;
 
     public void initialize(){
@@ -68,7 +74,7 @@ public class HelloController implements Drawable {
     }
 
     private void draw() {
-        //updateFPSCounter();
+        updateFPSCounter();
         engine.clearView();
         for(var polygon: cube){
             //engine.drawPolygonEdges(polygon);
@@ -81,11 +87,16 @@ public class HelloController implements Drawable {
     }
 
     private void updateFPSCounter() {
-        if(lastTimeCheck != 0.0f){
+        if(lastTimeCheck != 0){
             long diffMillis = System.currentTimeMillis() - lastTimeCheck;
             double diffSec =  diffMillis / 1000f;
             int fps = (int) (1/diffSec);
-            fpsCounter.setText(fps + " fps");
+            fpss[fpsIndex++] = fps;
+            if (fpsIndex == fpss.length){
+                int avg = Arrays.stream(fpss).sum()/fpss.length;
+                fpsCounter.setText(avg + " fps");
+                fpsIndex = 0;
+            }
         }
          lastTimeCheck = System.currentTimeMillis();
     }
