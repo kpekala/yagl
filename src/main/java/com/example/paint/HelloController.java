@@ -1,14 +1,12 @@
 package com.example.paint;
 
+import com.example.paint.utils.ColorUtils;
 import com.example.paint.yagl.Drawable;
 import com.example.paint.yagl.Engine;
-import com.example.paint.yagl.Pixel;
 import com.example.paint.yagl.model.Samples;
-import com.example.paint.yagl.model.Transform;
-import com.example.paint.yagl.model.basic.Color4i;
 import com.example.paint.yagl.model.basic.Vector2f;
 import com.example.paint.yagl.model.basic.Vector3f;
-import com.example.paint.yagl.model.complex.Polygon;
+import com.example.paint.yagl.model.complex.Model;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -16,9 +14,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.concurrent.atomic.AtomicIntegerArray;
+import java.util.Random;
 
 
 public class HelloController implements Drawable {
@@ -27,8 +25,7 @@ public class HelloController implements Drawable {
     public Text fpsCounter;
     private GraphicsContext graphicsContext;
     private Engine engine;
-    private final Polygon[] cube = Samples.getCube();
-    private final Polygon[] cube1 = Samples.getCube();
+    private final ArrayList<Model> cubes = new ArrayList<>();
 
     private final int[] fpss = new int[40];
     private int fpsIndex = 0;
@@ -37,12 +34,24 @@ public class HelloController implements Drawable {
     public void initialize(){
         graphicsContext = canvas.getGraphicsContext2D();
         engine = new Engine(this,new Vector2f((float) canvas.getWidth(),(float)canvas.getHeight()));
+        initCubes();
         mainLoop();
     }
 
+    private void initCubes() {
+        int n = 50;
+        int f = 5;
+        Vector3f[] colors = {ColorUtils.RED, ColorUtils.GREEN, ColorUtils.BLUE};
+        for(int i=0; i<n; i++){
+            Random r = new Random();
+            float x = r.nextFloat()*f*4;
+            float y = x + r.nextFloat()*f/2;
+            float z = r.nextFloat()*f + 10;
+            cubes.add(Samples.getCubeModel(new Vector3f(x,y,z),colors[i%3]));
+        }
+    }
+
     private void mainLoop() {
-        Transform.move(cube,new Vector3f(0,0,3f));
-        Transform.move(cube1,new Vector3f(4,0,2.5f));
         new Thread(() -> {
             while (true){
                 onUpdate();
@@ -56,33 +65,53 @@ public class HelloController implements Drawable {
     }
 
     private void onUpdate() {
-        if (Input.isPressed(KeyCode.W)) {
-            rotate(cube, new Vector3f(-0.03f,0,0));
+        float moveSpeed = 0.05f;
+
+        if (Input.isPressed(KeyCode.R)) {
+
+            rotateCubes(new Vector3f(-0.03f,0,0));
+        }
+        if (Input.isPressed(KeyCode.T)){
+            rotateCubes(new Vector3f(0,0.03f,0));
+        }
+        if(Input.isPressed(KeyCode.W)){
+            moveCubes(new Vector3f(0,0,moveSpeed));
         }
         if (Input.isPressed(KeyCode.S)){
-            rotate(cube, new Vector3f(0.03f,0,0));
+            moveCubes(new Vector3f(0,0,-moveSpeed));
         }
-        if (Input.isPressed(KeyCode.A)) {
-            rotate(cube, new Vector3f(0,-0.03f,0));
+        if(Input.isPressed(KeyCode.A)){
+            moveCubes(new Vector3f(-moveSpeed,0,0));
         }
         if (Input.isPressed(KeyCode.D)){
-            rotate(cube, new Vector3f(0,0.03f,0));
+            moveCubes(new Vector3f(moveSpeed,0,0));
         }
+
         Platform.runLater(() ->{
             draw();
         });
     }
 
+    private void moveCubes(Vector3f vector3f) {
+        for(var cube: cubes){
+            cube.move(vector3f);
+        }
+    }
+
+    private void rotateCubes(Vector3f vector3f) {
+        for(var cube: cubes){
+            cube.rotate(vector3f);
+        }
+    }
+
     private void draw() {
         updateFPSCounter();
         engine.clearView();
-        for(var polygon: cube){
-            //engine.drawPolygonEdges(polygon);
-            engine.fillPolygon(polygon, new Vector3f(1,0,0));
-        }
-        for(var polygon: cube1){
-            //engine.drawPolygonEdges(polygon);
-            engine.fillPolygon(polygon, new Vector3f(0,1,0));
+
+        for (var cube: cubes){
+            for(var polygon: cube.polygons){
+                engine.render3DPolygon(polygon,cube.getColor());
+            }
         }
     }
 
@@ -99,11 +128,6 @@ public class HelloController implements Drawable {
             }
         }
          lastTimeCheck = System.currentTimeMillis();
-    }
-
-    private void rotate(Polygon[] cube, Vector3f rotation){
-        Vector3f rotationCenter = new Vector3f(0,0,9);
-        Transform.rotateMesh(cube,rotation,rotationCenter);
     }
 
     @Override
