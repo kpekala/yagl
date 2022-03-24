@@ -4,6 +4,7 @@ import com.example.paint.utils.ColorUtils;
 import com.example.paint.utils.Maths;
 import com.example.paint.yagl.Drawable;
 import com.example.paint.yagl.Engine;
+import com.example.paint.yagl.JavaFXDrawable;
 import com.example.paint.yagl.model.Samples;
 import com.example.paint.yagl.model.basic.Vector2f;
 import com.example.paint.yagl.model.basic.Vector3f;
@@ -20,11 +21,10 @@ import java.util.Arrays;
 import java.util.Random;
 
 
-public class HelloController implements Drawable {
+public class HelloController {
 
     public Canvas canvas;
     public Text fpsCounter;
-    private GraphicsContext graphicsContext;
     private Engine engine;
     private final ArrayList<Model> cubes = new ArrayList<>();
 
@@ -33,14 +33,13 @@ public class HelloController implements Drawable {
     private long lastTimeCheck = 0;
 
     public void initialize(){
-        graphicsContext = canvas.getGraphicsContext2D();
-        engine = new Engine(this,new Vector2f((float) canvas.getWidth(),(float)canvas.getHeight()));
+        engine = new Engine(new JavaFXDrawable(canvas), new Vector2f((float) canvas.getWidth(),(float)canvas.getHeight()));
         initCubes();
         mainLoop();
     }
 
     private void initCubes() {
-        int n = 100;
+        int n = 10;
         for(int i=0; i<n; i++){
             float x = Maths.randomInRange(-40f,40f);
             float y = Maths.randomInRange(-20f, 20f);
@@ -63,7 +62,7 @@ public class HelloController implements Drawable {
     }
 
     private void onUpdate() {
-        float moveSpeed = 0.05f;
+        float moveSpeed = 0.3f;
 
         if (Input.isPressed(KeyCode.R)) {
 
@@ -110,6 +109,9 @@ public class HelloController implements Drawable {
             for(var polygon: cube.polygons){
                 engine.render3DPolygon(polygon,cube.getColor());
             }
+            for(var polygon: cube.polygons){
+                engine.drawPolygonEdges(polygon);
+            }
         }
     }
 
@@ -128,18 +130,5 @@ public class HelloController implements Drawable {
          lastTimeCheck = System.currentTimeMillis();
     }
 
-    @Override
-    public void drawPixel(Vector2f v, Vector3f color) {
-        graphicsContext.getPixelWriter().setColor((int) v.x, (int) v.y, Color.color(color.x,color.y,color.z));
-    }
 
-    @Override
-    public void drawLine(Vector2f point1, Vector2f point2, Vector3f color) {
-        graphicsContext.strokeLine(point1.x, point1.y, point2.x, point2.y);
-    }
-
-    @Override
-    public void clearCanvas() {
-        graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-    }
 }

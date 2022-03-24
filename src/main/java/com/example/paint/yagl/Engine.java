@@ -28,9 +28,8 @@ public class Engine {
     }
 
     public void drawPolygonEdges(Polygon p){
-        Polygon polygon = Transform.perspective(p);
+        Polygon polygon = transform3DPolygonToFlatScreen(p);
         if (inScreen(polygon)){
-            changeCoordinates(polygon);
             Vector3f[] vs = polygon.vertices;
             for(int i=0; i<vs.length; i++){
                 drawable.drawLine(vs[i].to2(),vs[(i+1)%vs.length].to2(),defaultColor);
@@ -39,13 +38,20 @@ public class Engine {
     }
 
     public void render3DPolygon(Polygon p, Vector3f color){
-        p = Transform.perspective(p);
-        changeCoordinates(p);
+        Polygon raw = p;
+        p = transform3DPolygonToFlatScreen(p);
         if (inFrontOfScreen(p) && inScreen(p)) {
             for(int y = (int) Math.max(p.yMin,0); y<Math.min(p.yMax, size.y); y++){
                 renderLineInsidePolygon(p, color,y);
             }
         }
+
+    }
+
+    private Polygon transform3DPolygonToFlatScreen(Polygon p){
+        Polygon polygonWithPerspective = Transform.perspective(p);
+        Polygon polygonOnScreen = transformToScreenCoordinates(polygonWithPerspective);
+        return polygonOnScreen;
     }
 
     private void renderLineInsidePolygon(Polygon p, Vector3f color, int screenY) {
@@ -70,11 +76,13 @@ public class Engine {
         }
     }
 
-    private void changeCoordinates(Polygon p) {
+    private Polygon transformToScreenCoordinates(Polygon polygon) {
+        Polygon p = new Polygon(polygon);
         for(int i=0; i<p.vertices.length; i++){
             p.vertices[i] = screenPosition(p.vertices[i]);
         }
         p.update();
+        return new Polygon(p);
     }
 
     private Vector3f screenPosition(Vector3f v) {
