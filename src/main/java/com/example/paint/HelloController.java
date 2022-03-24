@@ -1,6 +1,7 @@
 package com.example.paint;
 
 import com.example.paint.utils.ColorUtils;
+import com.example.paint.utils.Maths;
 import com.example.paint.yagl.Drawable;
 import com.example.paint.yagl.Engine;
 import com.example.paint.yagl.model.Samples;
@@ -39,15 +40,12 @@ public class HelloController implements Drawable {
     }
 
     private void initCubes() {
-        int n = 50;
-        int f = 5;
-        Vector3f[] colors = {ColorUtils.RED, ColorUtils.GREEN, ColorUtils.BLUE};
+        int n = 100;
         for(int i=0; i<n; i++){
-            Random r = new Random();
-            float x = r.nextFloat()*f*4;
-            float y = x + r.nextFloat()*f/2;
-            float z = r.nextFloat()*f + 10;
-            cubes.add(Samples.getCubeModel(new Vector3f(x,y,z),colors[i%3]));
+            float x = Maths.randomInRange(-40f,40f);
+            float y = Maths.randomInRange(-20f, 20f);
+            float z = Maths.randomInRange(30f, 40f);
+            cubes.add(Samples.getCubeModel(new Vector3f(x,y,z),Maths.randomColor()));
         }
     }
 

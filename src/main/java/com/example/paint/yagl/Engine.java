@@ -41,8 +41,8 @@ public class Engine {
     public void render3DPolygon(Polygon p, Vector3f color){
         p = Transform.perspective(p);
         changeCoordinates(p);
-        if (inScreen(p)) {
-            for(int y = (int) Math.max(p.yMin,0); y<=Math.min(p.yMax, size.y); y++){
+        if (inFrontOfScreen(p) && inScreen(p)) {
+            for(int y = (int) Math.max(p.yMin,0); y<Math.min(p.yMax, size.y); y++){
                 renderLineInsidePolygon(p, color,y);
             }
         }
@@ -61,7 +61,7 @@ public class Engine {
     private void drawLine(Vector3f v1, Vector3f v2, Polygon p,  Vector3f color) {
         float y = v1.y;
         for(int x = (int) v1.x; x<= v2.x; x++){
-            if(x < 0 || x > size.x) continue;
+            if(x < 0 || x >= size.x) continue;
             Vector3f vd = new Vector3f(x,y,p.zValueAtPoint(x,y));
             if(depthTester.isCloser(vd)){
                 depthTester.update(vd);
@@ -85,6 +85,10 @@ public class Engine {
     private boolean inScreen(Polygon pol) {
         return Arrays.stream(pol.vertices).anyMatch(p -> p.x >= 0 && p.x <= size.x
                 && p.y >= 0 && p.y <= size.y);
+    }
+
+    private boolean inFrontOfScreen(Polygon pol){
+        return Arrays.stream(pol.vertices).allMatch(p -> p.z >= 1);
     }
 
     public void clearView() {

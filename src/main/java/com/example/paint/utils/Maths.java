@@ -2,7 +2,11 @@ package com.example.paint.utils;
 
 import com.example.paint.yagl.model.basic.Vector3f;
 
+import java.util.Random;
+
 public class Maths {
+    public static Random random = new Random();
+
     public static float fValue(float a, float b, float x){
         return a*x + b;
     }
@@ -28,5 +32,13 @@ public class Maths {
 
     public static float zPlaneValue(float[] coefs, float x, float y){
         return (-coefs[3] - coefs[1] * y - coefs[0] * x)/ coefs[2];
+    }
+
+    public static float randomInRange(float min, float max){
+        return min + random.nextFloat() * (max-min);
+    }
+
+    public static Vector3f randomColor(){
+        return new Vector3f(random.nextFloat(), random.nextFloat(), random.nextFloat());
     }
 }
