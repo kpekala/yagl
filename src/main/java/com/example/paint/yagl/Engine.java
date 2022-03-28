@@ -38,7 +38,6 @@ public class Engine {
     }
 
     public void render3DPolygon(Polygon p, Vector3f color){
-        Polygon raw = p;
         p = transform3DPolygonToFlatScreen(p);
         if (inFrontOfScreen(p) && inScreen(p)) {
             for(int y = (int) Math.max(p.yMin,0); y<Math.min(p.yMax, size.y); y++){

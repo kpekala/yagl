@@ -5,7 +5,6 @@ import com.example.paint.yagl.model.basic.Vector2f;
 import com.example.paint.yagl.model.basic.Vector3f;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 

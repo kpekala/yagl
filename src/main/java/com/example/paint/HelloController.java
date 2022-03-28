@@ -65,7 +65,6 @@ public class HelloController {
         float moveSpeed = 0.3f;
 
         if (Input.isPressed(KeyCode.R)) {
-
             rotateCubes(new Vector3f(-0.03f,0,0));
         }
         if (Input.isPressed(KeyCode.T)){
@@ -82,6 +81,12 @@ public class HelloController {
         }
         if (Input.isPressed(KeyCode.D)){
             moveCubes(new Vector3f(moveSpeed,0,0));
+        }
+        if(Input.isPressed(KeyCode.UP)){
+            moveCubes(new Vector3f(0,moveSpeed,0));
+        }
+        if (Input.isPressed(KeyCode.DOWN)){
+            moveCubes(new Vector3f(0,-moveSpeed,0));
         }
 
         Platform.runLater(() ->{
@@ -129,6 +134,4 @@ public class HelloController {
         }
          lastTimeCheck = System.currentTimeMillis();
     }
-
-
 }

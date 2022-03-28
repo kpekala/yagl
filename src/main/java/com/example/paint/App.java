@@ -15,7 +15,6 @@ public class App extends Application {
         return instance;
     }
     public App(){
-        System.out.println("siema");
         instance = this;
     }
 
