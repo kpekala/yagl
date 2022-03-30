@@ -15,7 +15,7 @@ public class Engine {
 
     private final Vector2f size;
     private final Vector2f canvasCenter;
-    private float scaleFactor = 130;
+    private final float scaleFactor = 600;
 
     private final DepthTester depthTester;
 
