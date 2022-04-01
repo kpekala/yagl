@@ -1,8 +1,6 @@
 package com.example.paint;
 
-import com.example.paint.utils.ColorUtils;
 import com.example.paint.utils.Maths;
-import com.example.paint.yagl.Drawable;
 import com.example.paint.yagl.Engine;
 import com.example.paint.yagl.JavaFXDrawable;
 import com.example.paint.yagl.model.Samples;
@@ -11,14 +9,11 @@ import com.example.paint.yagl.model.basic.Vector3f;
 import com.example.paint.yagl.model.complex.Model;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
 
 
 public class HelloController {
@@ -28,7 +23,7 @@ public class HelloController {
     private Engine engine;
     private final ArrayList<Model> cubes = new ArrayList<>();
 
-    private final int[] fpss = new int[40];
+    private final int[] fpss = new int[10];
     private int fpsIndex = 0;
     private long lastTimeCheck = 0;
 
@@ -39,9 +34,9 @@ public class HelloController {
     }
 
     private void initCubes() {
-        int n = 10;
+        int n = 100;
         for(int i=0; i<n; i++){
-            float x = Maths.randomInRange(-40f,40f);
+            float x = Maths.randomInRange(-20,20);
             float y = Maths.randomInRange(-20f, 20f);
             float z = Maths.randomInRange(30f, 40f);
             cubes.add(Samples.getCubeModel(new Vector3f(x,y,z),Maths.randomColor()));
@@ -63,6 +58,7 @@ public class HelloController {
 
     private void onUpdate() {
         float moveSpeed = 0.3f;
+        long s = System.currentTimeMillis();
 
         if (Input.isPressed(KeyCode.R)) {
             rotateCubes(new Vector3f(-0.03f,0,0));
@@ -91,6 +87,7 @@ public class HelloController {
 
         Platform.runLater(() ->{
             draw();
+            updateFPSCounter(System.currentTimeMillis() - s);
         });
     }
 
@@ -107,9 +104,7 @@ public class HelloController {
     }
 
     private void draw() {
-        updateFPSCounter();
         engine.clearView();
-
         for (var cube: cubes){
             for(var polygon: cube.polygons){
                 engine.render3DPolygon(polygon,cube.getColor());
@@ -120,18 +115,15 @@ public class HelloController {
         }
     }
 
-    private void updateFPSCounter() {
-        if(lastTimeCheck != 0){
-            long diffMillis = System.currentTimeMillis() - lastTimeCheck;
-            double diffSec =  diffMillis / 1000f;
-            int fps = (int) (1/diffSec);
-            fpss[fpsIndex++] = fps;
-            if (fpsIndex == fpss.length){
-                int avg = Arrays.stream(fpss).sum()/fpss.length;
-                fpsCounter.setText(avg + " fps");
-                fpsIndex = 0;
-            }
+    private void updateFPSCounter(long frameDuration) {
+        double diffSec =  frameDuration / 1000f;
+        int fps = (int) (1/diffSec);
+        fpss[fpsIndex++] = fps;
+        if (fpsIndex == fpss.length){
+            int avg = Arrays.stream(fpss).sum()/fpss.length;
+            fpsCounter.setText(avg + " fps");
+            fpsIndex = 0;
         }
-         lastTimeCheck = System.currentTimeMillis();
+
     }
 }
