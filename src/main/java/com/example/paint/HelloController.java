@@ -34,7 +34,7 @@ public class HelloController {
     }
 
     private void initCubes() {
-        int n = 100;
+        int n = 10;
         for(int i=0; i<n; i++){
             float x = Maths.randomInRange(-20,20);
             float y = Maths.randomInRange(-20f, 20f);
@@ -106,9 +106,7 @@ public class HelloController {
     private void draw() {
         engine.clearView();
         for (var cube: cubes){
-            for(var polygon: cube.polygons){
-                engine.render3DPolygon(polygon,cube.getColor());
-            }
+            engine.drawModel(cube);
             for(var polygon: cube.polygons){
                 engine.drawPolygonEdges(polygon);
             }

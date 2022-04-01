@@ -3,6 +3,7 @@ package com.example.paint.yagl;
 import com.example.paint.yagl.model.Transform;
 import com.example.paint.yagl.model.basic.Vector2f;
 import com.example.paint.yagl.model.basic.Vector3f;
+import com.example.paint.yagl.model.complex.Model;
 import com.example.paint.yagl.model.complex.Polygon;
 
 import java.lang.Math;
@@ -27,6 +28,12 @@ public class Engine {
         canvasCenter = new Vector2f(size.x/2, size.y/2);
     }
 
+    public void drawModel(Model model){
+        for (var polygon: model.polygons){
+            draw3DPolygon(polygon,model.getColor());
+        }
+    }
+
     public void drawPolygonEdges(Polygon p){
         Polygon polygon = transform3DPolygonToFlatScreen(p);
         if (inScreen(polygon)){
@@ -37,11 +44,11 @@ public class Engine {
         }
     }
 
-    public void render3DPolygon(Polygon p, Vector3f color){
+    public void draw3DPolygon(Polygon p, Vector3f color){
         p = transform3DPolygonToFlatScreen(p);
         if (inFrontOfScreen(p) && inScreen(p)) {
             for(int y = (int) Math.max(p.yMin,0); y<Math.min(p.yMax, size.y); y++){
-                renderLineInsidePolygon(p, color,y);
+                drawLineInsidePolygon(p, color,y);
             }
         }
 
@@ -53,7 +60,7 @@ public class Engine {
         return polygonOnScreen;
     }
 
-    private void renderLineInsidePolygon(Polygon p, Vector3f color, int screenY) {
+    private void drawLineInsidePolygon(Polygon p, Vector3f color, int screenY) {
         List<Float> xs = p.findIntersections(screenY);
         for(int i=0; i<xs.size()-1; i+=2){
             float z1 = p.zValueAtPoint(xs.get(i),screenY);
