@@ -10,7 +10,7 @@ import java.lang.Math;
 import java.util.Arrays;
 import java.util.List;
 
-public class Engine {
+public class Drawer {
     private final Drawable drawable;
     private final Vector3f defaultColor;
 
@@ -20,7 +20,7 @@ public class Engine {
 
     private final DepthTester depthTester;
 
-    public Engine(Drawable drawable, Vector2f size){
+    public Drawer(Drawable drawable, Vector2f size){
         this.drawable = drawable;
         this.size = size;
         defaultColor = new Vector3f(0.2f,0.5f,0.8f);
@@ -35,7 +35,7 @@ public class Engine {
     }
 
     public void drawPolygonEdges(Polygon p){
-        Polygon polygon = transform3DPolygonToFlatScreen(p);
+        Polygon polygon = transform3DPolygonToScreenPolygon(p);
         if (inScreen(polygon)){
             Vector3f[] vs = polygon.vertices;
             for(int i=0; i<vs.length; i++){
@@ -45,7 +45,7 @@ public class Engine {
     }
 
     public void draw3DPolygon(Polygon p, Vector3f color){
-        p = transform3DPolygonToFlatScreen(p);
+        p = transform3DPolygonToScreenPolygon(p);
         if (inFrontOfScreen(p) && inScreen(p)) {
             for(int y = (int) Math.max(p.yMin,0); y<Math.min(p.yMax, size.y); y++){
                 drawLineInsidePolygon(p, color,y);
@@ -54,7 +54,7 @@ public class Engine {
 
     }
 
-    private Polygon transform3DPolygonToFlatScreen(Polygon p){
+    private Polygon transform3DPolygonToScreenPolygon(Polygon p){
         Polygon polygonWithPerspective = Transform.perspective(p);
         Polygon polygonOnScreen = transformToScreenCoordinates(polygonWithPerspective);
         return polygonOnScreen;
@@ -65,12 +65,12 @@ public class Engine {
         for(int i=0; i<xs.size()-1; i+=2){
             float z1 = p.zValueAtPoint(xs.get(i),screenY);
             float z2 = p.zValueAtPoint(xs.get(i+1),screenY);
-            drawLine(new Vector3f(xs.get(i),screenY,z1),
+            drawHorizontalLine(new Vector3f(xs.get(i),screenY,z1),
                     new Vector3f(xs.get(i+1),screenY,z2),p, color);
         }
     }
 
-    private void drawLine(Vector3f v1, Vector3f v2, Polygon p,  Vector3f color) {
+    private void drawHorizontalLine(Vector3f v1, Vector3f v2, Polygon p, Vector3f color) {
         float y = v1.y;
         for(int x = (int) v1.x; x<= v2.x; x++){
             if(x < 0 || x >= size.x) continue;

@@ -6,8 +6,6 @@ import com.example.paint.yagl.model.complex.Polygon;
 public class Transform {
 
     public static Polygon perspective(Polygon polygon){
-        //float scale = (float) (1 / Math.tan(120 * 0.5 * Math.PI / 180));
-        //System.out.println(scale);
         float aspect = 4f/3f;
         Polygon p = new Polygon(polygon);
         for(int i=0; i<p.vertices.length; i++){

@@ -1,7 +1,7 @@
 package com.example.paint;
 
 import com.example.paint.utils.Maths;
-import com.example.paint.yagl.Engine;
+import com.example.paint.yagl.Drawer;
 import com.example.paint.yagl.JavaFXDrawable;
 import com.example.paint.yagl.model.Samples;
 import com.example.paint.yagl.model.basic.Vector2f;
@@ -16,19 +16,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 
-public class HelloController {
+public class AppController {
 
     public Canvas canvas;
     public Text fpsCounter;
-    private Engine engine;
+    private Drawer drawer;
     private final ArrayList<Model> cubes = new ArrayList<>();
 
     private final int[] fpss = new int[10];
     private int fpsIndex = 0;
-    private long lastTimeCheck = 0;
 
     public void initialize(){
-        engine = new Engine(new JavaFXDrawable(canvas), new Vector2f((float) canvas.getWidth(),(float)canvas.getHeight()));
+        drawer = new Drawer(new JavaFXDrawable(canvas), new Vector2f((float) canvas.getWidth(),(float)canvas.getHeight()));
         initCubes();
         mainLoop();
     }
@@ -104,12 +103,12 @@ public class HelloController {
     }
 
     private void draw() {
-        engine.clearView();
+        drawer.clearView();
         for (var cube: cubes){
-            engine.drawModel(cube);
-            for(var polygon: cube.polygons){
-                engine.drawPolygonEdges(polygon);
-            }
+            drawer.drawModel(cube);
+//            for(var polygon: cube.polygons){
+//                drawer.drawPolygonEdges(polygon);
+//            }
         }
     }
 

@@ -94,7 +94,4 @@ public class Polygon {
         Vector3f v2 = vertices[(edgeIndex+1)%n];
         return (y >= v1.y && y <= v2.y) || (y >= v2.y && y <= v1.y);
     }
-
-
-
 }
