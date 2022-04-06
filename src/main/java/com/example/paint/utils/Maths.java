@@ -38,7 +38,5 @@ public class Maths {
         return min + random.nextFloat() * (max-min);
     }
 
-    public static Vector3f randomColor(){
-        return new Vector3f(random.nextFloat(), random.nextFloat(), random.nextFloat());
-    }
+
 }

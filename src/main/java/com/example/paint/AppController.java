@@ -1,5 +1,6 @@
 package com.example.paint;
 
+import com.example.paint.utils.ColorUtils;
 import com.example.paint.utils.Maths;
 import com.example.paint.yagl.Drawer;
 import com.example.paint.yagl.JavaFXDrawable;
@@ -38,7 +39,7 @@ public class AppController {
             float x = Maths.randomInRange(-20,20);
             float y = Maths.randomInRange(-20f, 20f);
             float z = Maths.randomInRange(30f, 40f);
-            cubes.add(Samples.getCubeModel(new Vector3f(x,y,z),Maths.randomColor()));
+            cubes.add(Samples.getCubeModel(new Vector3f(x,y,z), ColorUtils.randomColor()));
         }
     }
 
