@@ -1,5 +1,6 @@
-package com.example.paint;
+package com.example.paint.app;
 
+import com.example.paint.utils.Input;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -20,7 +21,8 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
+        System.out.println(getClass().getPackage().getName());
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setOnCloseRequest(event -> {
             Platform.exit();

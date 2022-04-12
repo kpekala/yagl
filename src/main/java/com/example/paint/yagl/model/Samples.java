@@ -1,10 +1,8 @@
 package com.example.paint.yagl.model;
 
-import com.example.paint.utils.ColorUtils;
 import com.example.paint.yagl.model.basic.Vector3f;
 import com.example.paint.yagl.model.complex.Model;
 import com.example.paint.yagl.model.complex.Polygon;
-import javafx.scene.paint.Color;
 
 public class Samples {
     public static Polygon[] getCube(){

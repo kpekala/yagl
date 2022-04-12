@@ -3,6 +3,8 @@ module com.example.paint {
     requires javafx.fxml;
 
 
-    opens com.example.paint to javafx.fxml;
-    exports com.example.paint;
+    exports com.example.paint.app;
+    opens com.example.paint.app to javafx.fxml;
+    exports com.example.paint.utils;
+    opens com.example.paint.utils to javafx.fxml;
 }

@@ -1,4 +1,4 @@
-package com.example.paint.utils;
+package com.example.paint.yagl.utils;
 
 import com.example.paint.yagl.model.basic.Vector3f;
 

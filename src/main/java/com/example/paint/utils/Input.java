@@ -1,5 +1,6 @@
-package com.example.paint;
+package com.example.paint.utils;
 
+import com.example.paint.app.App;
 import javafx.scene.input.KeyCode;
 
 import java.util.HashMap;

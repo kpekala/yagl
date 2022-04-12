@@ -1,6 +1,6 @@
 package com.example.paint.yagl.model.complex;
 
-import com.example.paint.utils.Maths;
+import com.example.paint.yagl.utils.Maths;
 import com.example.paint.yagl.model.basic.Vector2f;
 import com.example.paint.yagl.model.basic.Vector3f;
 

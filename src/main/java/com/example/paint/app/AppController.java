@@ -1,7 +1,8 @@
-package com.example.paint;
+package com.example.paint.app;
 
-import com.example.paint.utils.ColorUtils;
-import com.example.paint.utils.Maths;
+import com.example.paint.utils.Input;
+import com.example.paint.yagl.utils.ColorUtils;
+import com.example.paint.yagl.utils.Maths;
 import com.example.paint.yagl.Drawer;
 import com.example.paint.yagl.JavaFXDrawable;
 import com.example.paint.yagl.model.Samples;
