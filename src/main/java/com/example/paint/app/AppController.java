@@ -1,6 +1,7 @@
 package com.example.paint.app;
 
 import com.example.paint.utils.Input;
+import com.example.paint.yagl.Scene;
 import com.example.paint.yagl.utils.ColorUtils;
 import com.example.paint.yagl.utils.Maths;
 import com.example.paint.yagl.Drawer;
@@ -16,6 +17,7 @@ import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 
 public class AppController {
@@ -23,25 +25,15 @@ public class AppController {
     public Canvas canvas;
     public Text fpsCounter;
     private Drawer drawer;
-    private final ArrayList<Model> cubes = new ArrayList<>();
+    private final Scene scene = new Scene();
 
     private final int[] fpss = new int[10];
     private int fpsIndex = 0;
 
     public void initialize(){
         drawer = new Drawer(new JavaFXDrawable(canvas), new Vector2f((float) canvas.getWidth(),(float)canvas.getHeight()));
-        initCubes();
+        scene.addToScene(Samples.generateCubeModels(10));
         mainLoop();
-    }
-
-    private void initCubes() {
-        int n = 10;
-        for(int i=0; i<n; i++){
-            float x = Maths.randomInRange(-20,20);
-            float y = Maths.randomInRange(-20f, 20f);
-            float z = Maths.randomInRange(30f, 40f);
-            cubes.add(Samples.getCubeModel(new Vector3f(x,y,z), ColorUtils.randomColor()));
-        }
     }
 
     private void mainLoop() {
@@ -62,28 +54,28 @@ public class AppController {
         long s = System.currentTimeMillis();
 
         if (Input.isPressed(KeyCode.R)) {
-            rotateCubes(new Vector3f(-0.03f,0,0));
+            scene.rotateCubes(new Vector3f(-0.03f,0,0));
         }
         if (Input.isPressed(KeyCode.T)){
-            rotateCubes(new Vector3f(0,0.03f,0));
+            scene.rotateCubes(new Vector3f(0,0.03f,0));
         }
         if(Input.isPressed(KeyCode.W)){
-            moveCubes(new Vector3f(0,0,moveSpeed));
+            scene.moveCubes(new Vector3f(0,0,moveSpeed));
         }
         if (Input.isPressed(KeyCode.S)){
-            moveCubes(new Vector3f(0,0,-moveSpeed));
+            scene.moveCubes(new Vector3f(0,0,-moveSpeed));
         }
         if(Input.isPressed(KeyCode.A)){
-            moveCubes(new Vector3f(-moveSpeed,0,0));
+            scene.moveCubes(new Vector3f(-moveSpeed,0,0));
         }
         if (Input.isPressed(KeyCode.D)){
-            moveCubes(new Vector3f(moveSpeed,0,0));
+            scene.moveCubes(new Vector3f(moveSpeed,0,0));
         }
         if(Input.isPressed(KeyCode.UP)){
-            moveCubes(new Vector3f(0,moveSpeed,0));
+            scene.moveCubes(new Vector3f(0,moveSpeed,0));
         }
         if (Input.isPressed(KeyCode.DOWN)){
-            moveCubes(new Vector3f(0,-moveSpeed,0));
+            scene.moveCubes(new Vector3f(0,-moveSpeed,0));
         }
 
         Platform.runLater(() ->{
@@ -91,26 +83,10 @@ public class AppController {
             updateFPSCounter(System.currentTimeMillis() - s);
         });
     }
-
-    private void moveCubes(Vector3f vector3f) {
-        for(var cube: cubes){
-            cube.move(vector3f);
-        }
-    }
-
-    private void rotateCubes(Vector3f vector3f) {
-        for(var cube: cubes){
-            cube.rotate(vector3f);
-        }
-    }
-
     private void draw() {
         drawer.clearView();
-        for (var cube: cubes){
+        for (var cube: scene.getDrawableModels()){
             drawer.drawModel(cube);
-//            for(var polygon: cube.polygons){
-//                drawer.drawPolygonEdges(polygon);
-//            }
         }
     }
 
