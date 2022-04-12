@@ -4,7 +4,7 @@ import com.example.paint.utils.Input;
 import com.example.paint.yagl.utils.ColorUtils;
 import com.example.paint.yagl.utils.Maths;
 import com.example.paint.yagl.Drawer;
-import com.example.paint.yagl.JavaFXDrawable;
+import com.example.paint.yagl.api.JavaFXDrawable;
 import com.example.paint.yagl.model.Samples;
 import com.example.paint.yagl.model.basic.Vector2f;
 import com.example.paint.yagl.model.basic.Vector3f;

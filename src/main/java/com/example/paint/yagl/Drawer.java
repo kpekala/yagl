@@ -1,5 +1,6 @@
 package com.example.paint.yagl;
 
+import com.example.paint.yagl.api.Drawable;
 import com.example.paint.yagl.model.Transform;
 import com.example.paint.yagl.model.basic.Vector2f;
 import com.example.paint.yagl.model.basic.Vector3f;
@@ -16,7 +17,6 @@ public class Drawer {
 
     private final Vector2f size;
     private final Vector2f canvasCenter;
-    private final float scaleFactor = 600;
 
     private final DepthTester depthTester;
 
@@ -51,13 +51,11 @@ public class Drawer {
                 drawLineInsidePolygon(p, color,y);
             }
         }
-
     }
 
     private Polygon transform3DPolygonToScreenPolygon(Polygon p){
         Polygon polygonWithPerspective = Transform.perspective(p);
-        Polygon polygonOnScreen = transformToScreenCoordinates(polygonWithPerspective);
-        return polygonOnScreen;
+        return transformToScreenCoordinates(polygonWithPerspective);
     }
 
     private void drawLineInsidePolygon(Polygon p, Vector3f color, int screenY) {
@@ -72,8 +70,7 @@ public class Drawer {
 
     private void drawHorizontalLine(Vector3f v1, Vector3f v2, Polygon p, Vector3f color) {
         float y = v1.y;
-        for(int x = (int) v1.x; x<= v2.x; x++){
-            if(x < 0 || x >= size.x) continue;
+        for(int x = Math.max((int) v1.x,0); x<= Math.min(v2.x,size.x-1); x++){
             Vector3f vd = new Vector3f(x,y,p.zValueAtPoint(x,y));
             if(depthTester.isCloser(vd)){
                 depthTester.update(vd);
@@ -92,8 +89,10 @@ public class Drawer {
     }
 
     private Vector3f screenPosition(Vector3f v) {
+        // Change coordinates from image Plane(-1, 1) to screen pixels
+        float scaleFactor = 600;
         return new Vector3f(canvasCenter.x + v.x * scaleFactor,
-                canvasCenter.y - v.y*scaleFactor, v.z);
+                canvasCenter.y - v.y* scaleFactor, v.z);
     }
 
     private boolean inScreen(Polygon pol) {

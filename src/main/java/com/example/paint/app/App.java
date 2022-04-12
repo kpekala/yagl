@@ -30,7 +30,7 @@ public class App extends Application {
         });
         scene.setOnKeyPressed(event -> Input.onKeyPressed(event.getCode()));
         scene.setOnKeyReleased(event -> Input.onKeyReleased(event.getCode()));
-        stage.setTitle("Hello!");
+        stage.setTitle("YAGL");
         stage.setScene(scene);
         stage.show();
     }
