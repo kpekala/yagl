@@ -6,6 +6,7 @@ import com.example.paint.yagl.model.basic.Vector2f;
 import com.example.paint.yagl.model.basic.Vector3f;
 import com.example.paint.yagl.model.complex.Model;
 import com.example.paint.yagl.model.complex.Polygon;
+import com.example.paint.yagl.utils.Maths;
 
 import java.lang.Math;
 import java.util.Arrays;
@@ -28,9 +29,17 @@ public class Drawer {
         canvasCenter = new Vector2f(size.x/2, size.y/2);
     }
 
+    // Public methods
+
     public void drawModel(Model model){
         for (var polygon: model.polygons){
             draw3DPolygon(polygon,model.getColor());
+        }
+    }
+
+    public void drawModelEdges(Model model){
+        for (var polygon: model.polygons){
+            drawPolygonEdges(polygon);
         }
     }
 
@@ -39,7 +48,8 @@ public class Drawer {
         if (inScreen(polygon)){
             Vector3f[] vs = polygon.vertices;
             for(int i=0; i<vs.length; i++){
-                drawable.drawLine(vs[i].to2(),vs[(i+1)%vs.length].to2(),defaultColor);
+                //drawable.drawLine(vs[i].to2(),vs[(i+1)%vs.length].to2(),defaultColor);
+                draw2DLine(vs[i].to2(),vs[(i+1)%vs.length].to2(),defaultColor);
             }
         }
     }
@@ -51,6 +61,21 @@ public class Drawer {
                 drawLineInsidePolygon(p, color,y);
             }
         }
+    }
+
+    public void draw2DLine(Vector2f v1, Vector2f v2, Vector3f color){
+        var coefs = Maths.get2DLineCoefficients(v1,v2);
+        Vector2f topLeft = new Vector2f(Math.min(v1.x,v2.x),Math.min(v1.y,v2.y));
+        Vector2f bottomRight = new Vector2f(Math.max(v1.x,v2.x),Math.max(v1.y,v2.y));
+        for (int pixelX = (int) Math.ceil(topLeft.x); pixelX<= bottomRight.x; pixelX++){
+            int pixelY = (int) (coefs[0] * pixelX + coefs[1]);
+            drawable.drawPixel(new Vector2f(pixelX, pixelY),color);
+        }
+    }
+
+    public void clearView() {
+        drawable.clearCanvas();
+        depthTester.clearBuffer();
     }
 
     private Polygon transform3DPolygonToScreenPolygon(Polygon p){
@@ -104,8 +129,5 @@ public class Drawer {
         return Arrays.stream(pol.vertices).allMatch(p -> p.z >= 1);
     }
 
-    public void clearView() {
-        drawable.clearCanvas();
-        depthTester.clearBuffer();
-    }
+
 }

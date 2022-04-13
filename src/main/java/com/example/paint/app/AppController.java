@@ -88,6 +88,9 @@ public class AppController {
         for (var cube: scene.getDrawableModels()){
             drawer.drawModel(cube);
         }
+        for (var cube: scene.getDrawableModels()){
+            drawer.drawModelEdges(cube);
+        }
     }
 
     private void updateFPSCounter(long frameDuration) {
@@ -99,6 +102,5 @@ public class AppController {
             fpsCounter.setText(avg + " fps");
             fpsIndex = 0;
         }
-
     }
 }

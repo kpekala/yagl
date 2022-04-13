@@ -1,5 +1,6 @@
 package com.example.paint.yagl.model;
 
+import com.example.paint.yagl.model.basic.Vector2f;
 import com.example.paint.yagl.model.basic.Vector3f;
 import com.example.paint.yagl.model.complex.Polygon;
 
@@ -75,4 +76,5 @@ public class Transform {
     public static float cos(float numb){
         return (float)Math.cos(numb);
     }
+
 }

@@ -1,5 +1,6 @@
 package com.example.paint.yagl.utils;
 
+import com.example.paint.yagl.model.basic.Vector2f;
 import com.example.paint.yagl.model.basic.Vector3f;
 
 import java.util.Random;
@@ -38,5 +39,10 @@ public class Maths {
         return min + random.nextFloat() * (max-min);
     }
 
+    public static float[] get2DLineCoefficients(Vector2f v1, Vector2f v2){
+        float a = (v2.y-v1.y)/(v2.x-v1.x);
+        float b = v1.y - a*v1.x;
+        return new float[]{a,b};
+    }
 
 }
