@@ -15,7 +15,7 @@ public class Vector3f {
         return new Vector3f(x,y,z);
     }
 
-    public Vector2f to2(){
+    public Vector2f to2f(){
         return new Vector2f(x,y);
     }
 

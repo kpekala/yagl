@@ -7,4 +7,8 @@ public class Vector2i {
         this.x = x;
         this.y = y;
     }
+
+    public Vector2f tof(){
+        return new Vector2f(x,y);
+    }
 }

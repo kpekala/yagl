@@ -3,6 +3,7 @@ package com.example.paint.yagl;
 import com.example.paint.yagl.api.Drawable;
 import com.example.paint.yagl.model.Transform;
 import com.example.paint.yagl.model.basic.Vector2f;
+import com.example.paint.yagl.model.basic.Vector2i;
 import com.example.paint.yagl.model.basic.Vector3f;
 import com.example.paint.yagl.model.complex.Model;
 import com.example.paint.yagl.model.complex.Polygon;
@@ -48,8 +49,7 @@ public class Drawer {
         if (inScreen(polygon)){
             Vector3f[] vs = polygon.vertices;
             for(int i=0; i<vs.length; i++){
-                //drawable.drawLine(vs[i].to2(),vs[(i+1)%vs.length].to2(),defaultColor);
-                draw2DLine(vs[i].to2(),vs[(i+1)%vs.length].to2(),defaultColor);
+                draw2DLine(vs[i].to2f().toMathIntegers(),vs[(i+1)%vs.length].to2f().toMathIntegers(),defaultColor);
             }
         }
     }
@@ -57,19 +57,37 @@ public class Drawer {
     public void draw3DPolygon(Polygon p, Vector3f color){
         p = transform3DPolygonToScreenPolygon(p);
         if (inFrontOfScreen(p) && inScreen(p)) {
-            for(int y = (int) Math.max(p.yMin,0); y<Math.min(p.yMax, size.y); y++){
+            for(int y = (int) Math.rint(Math.max(p.yMin,0)); y<Math.rint(Math.min(p.yMax, size.y)); y++){
                 drawLineInsidePolygon(p, color,y);
             }
         }
     }
 
-    public void draw2DLine(Vector2f v1, Vector2f v2, Vector3f color){
-        var coefs = Maths.get2DLineCoefficients(v1,v2);
-        Vector2f topLeft = new Vector2f(Math.min(v1.x,v2.x),Math.min(v1.y,v2.y));
-        Vector2f bottomRight = new Vector2f(Math.max(v1.x,v2.x),Math.max(v1.y,v2.y));
-        for (int pixelX = (int) Math.ceil(topLeft.x); pixelX<= bottomRight.x; pixelX++){
-            int pixelY = (int) (coefs[0] * pixelX + coefs[1]);
-            drawable.drawPixel(new Vector2f(pixelX, pixelY),color);
+    public void draw2DLine(Vector2i v1, Vector2i v2, Vector3f color){
+        var coefs = Maths.get2DLineCoefficients(v1.tof(),v2.tof());
+        Vector2i topLeft = new Vector2i(Math.min(v1.x,v2.x),Math.min(v1.y,v2.y));
+        Vector2i bottomRight = new Vector2i(Math.max(v1.x,v2.x),Math.max(v1.y,v2.y));
+
+        if (topLeft.x == bottomRight.x){
+            drawVertical2DLine(topLeft.x, topLeft.y, bottomRight.y,color);
+            return;
+        }
+
+        int lastPixelY = (int) Math.rint(coefs[0] * topLeft.x + coefs[1]);
+        for (int pixelX = topLeft.x; pixelX<= bottomRight.x; pixelX++){
+            int pixelY = (int) Math.rint(coefs[0] * pixelX + coefs[1]);
+            int nextPixelY = (int) Math.rint(coefs[0] * (pixelX+1) + coefs[1]);
+
+            drawVertical2DLine(pixelX,Math.min(lastPixelY,pixelY),Math.max(lastPixelY,pixelY),color);
+            if (pixelX+1 <= bottomRight.x){
+                drawVertical2DLine(pixelX,Math.min(nextPixelY,pixelY),Math.max(nextPixelY,pixelY),color);
+            }
+            lastPixelY = pixelY;
+        }
+    }
+    private void drawVertical2DLine(int x, int yMin, int yMax, Vector3f color){
+        for(int y = yMin; y<= yMax; y++){
+            drawable.drawPixel(new Vector2f(x,y),color);
         }
     }
 
@@ -95,11 +113,11 @@ public class Drawer {
 
     private void drawHorizontalLine(Vector3f v1, Vector3f v2, Polygon p, Vector3f color) {
         float y = v1.y;
-        for(int x = Math.max((int) v1.x,0); x<= Math.min(v2.x,size.x-1); x++){
+        for(int x = (int) Math.rint(Math.max(v1.x,0)); x<= Math.min(v2.x,size.x-1); x++){
             Vector3f vd = new Vector3f(x,y,p.zValueAtPoint(x,y));
             if(depthTester.isCloser(vd)){
                 depthTester.update(vd);
-                drawable.drawPixel(vd.to2(),color);
+                drawable.drawPixel(vd.to2f(),color);
             }
         }
     }
