@@ -1,12 +1,12 @@
 package com.example.paint.app;
 
 import com.example.paint.utils.Input;
-import com.example.paint.utils.ObjLoader;
+import com.example.paint.utils.OBJLoader;
+import com.example.paint.yagl.model.complex.Model;
 import com.example.paint.yagl.model.complex.Polygon;
 import com.example.paint.yagl.scene.Scene;
 import com.example.paint.yagl.Drawer;
 import com.example.paint.yagl.api.JavaFXDrawable;
-import com.example.paint.yagl.model.Samples;
 import com.example.paint.yagl.model.basic.Vector2f;
 import com.example.paint.yagl.model.basic.Vector3f;
 import javafx.application.Platform;
@@ -14,6 +14,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyCode;
 import javafx.scene.text.Text;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 
@@ -27,13 +29,24 @@ public class AppController {
     private final int[] fpss = new int[10];
     private int fpsIndex = 0;
 
+    private Vector3f defaultColor = new Vector3f(0.2f,0.5f,0.8f);
+
     public void initialize(){
         drawer = new Drawer(new JavaFXDrawable(canvas), new Vector2f((float) canvas.getWidth(),(float)canvas.getHeight()));
 
-        //Polygon[] pols = ObjLoader.load("")
-
-        scene.addToScene(Samples.generateCubeModels(10));
+        //scene.addToScene(Samples.generateCubeModels(10));
+        loadObj();
         mainLoop();
+    }
+
+    private void loadObj() {
+        try {
+            Polygon[] objPolygons = OBJLoader.load("/sample.obj");
+            Model objModel = new Model(objPolygons, new Vector3f(0,0,10),defaultColor);
+            scene.addToScene(objModel);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void mainLoop() {
@@ -50,7 +63,7 @@ public class AppController {
     }
 
     private void onUpdate() {
-        float moveSpeed = 0.3f;
+        float moveSpeed = 0.1f;
         long s = System.currentTimeMillis();
 
         if (Input.isPressed(KeyCode.R)) {

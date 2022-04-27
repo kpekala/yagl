@@ -1,7 +1,7 @@
 package com.example.paint.app;
 
 import com.example.paint.utils.Input;
-import com.example.paint.utils.ObjLoader;
+import com.example.paint.utils.OBJLoader;
 import com.mokiat.data.front.parser.IOBJParser;
 import com.mokiat.data.front.parser.OBJModel;
 import com.mokiat.data.front.parser.OBJParser;
@@ -37,11 +37,11 @@ public class App extends Application {
         stage.setTitle("YAGL");
         stage.setScene(scene);
         stage.show();
-        testObj();
+        //testObj();
     }
 
     private void testObj() {
-        URL objFileURL = ObjLoader.class.getResource("/sample.obj");
+        URL objFileURL = OBJLoader.class.getResource("/sample.obj");
         if (objFileURL != null) {
             try (InputStream in = objFileURL.openStream()) {
                 // Create an OBJParser and parse the resource

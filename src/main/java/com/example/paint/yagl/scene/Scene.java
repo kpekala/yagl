@@ -13,8 +13,12 @@ public class Scene {
         models = new ArrayList<>();
     }
 
-    public void addToScene(List<Model> models){
+    public void addAllToScene(List<Model> models){
         this.models.addAll(models);
+    }
+
+    public void addToScene(Model model){
+        this.models.add(model);
     }
 
     public ArrayList<Model> getDrawableModels() {

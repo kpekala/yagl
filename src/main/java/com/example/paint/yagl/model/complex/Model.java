@@ -8,7 +8,7 @@ public class Model {
     private Vector3f center;
     private Vector3f color;
 
-    private final Vector3f baseCenter = new Vector3f(0,0,6);
+    private final Vector3f baseCenter = new Vector3f(0,0,0);
 
     public Model(Polygon[] polygons, Vector3f center, Vector3f color) {
         this.polygons = polygons;
