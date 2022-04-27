@@ -22,11 +22,6 @@ public class JavaFXDrawable implements Drawable{
     }
 
     @Override
-    public void drawLine(Vector2f point1, Vector2f point2, Vector3f color) {
-        graphicsContext.strokeLine(point1.x, point1.y, point2.x, point2.y);
-    }
-
-    @Override
     public void clearCanvas() {
         graphicsContext.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
     }

@@ -1,23 +1,20 @@
 package com.example.paint.app;
 
 import com.example.paint.utils.Input;
-import com.example.paint.yagl.Scene;
-import com.example.paint.yagl.utils.ColorUtils;
-import com.example.paint.yagl.utils.Maths;
+import com.example.paint.utils.ObjLoader;
+import com.example.paint.yagl.model.complex.Polygon;
+import com.example.paint.yagl.scene.Scene;
 import com.example.paint.yagl.Drawer;
 import com.example.paint.yagl.api.JavaFXDrawable;
 import com.example.paint.yagl.model.Samples;
 import com.example.paint.yagl.model.basic.Vector2f;
 import com.example.paint.yagl.model.basic.Vector3f;
-import com.example.paint.yagl.model.complex.Model;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyCode;
 import javafx.scene.text.Text;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 
 public class AppController {
@@ -32,6 +29,9 @@ public class AppController {
 
     public void initialize(){
         drawer = new Drawer(new JavaFXDrawable(canvas), new Vector2f((float) canvas.getWidth(),(float)canvas.getHeight()));
+
+        //Polygon[] pols = ObjLoader.load("")
+
         scene.addToScene(Samples.generateCubeModels(10));
         mainLoop();
     }

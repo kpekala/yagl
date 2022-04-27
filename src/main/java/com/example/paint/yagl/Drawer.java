@@ -79,21 +79,22 @@ public class Drawer {
             int nextPixelY = (int) Math.rint(coefs[0] * (pixelX+1) + coefs[1]);
 
             drawVertical2DLine(pixelX,Math.min(lastPixelY,pixelY),Math.max(lastPixelY,pixelY),color);
-            if (pixelX+1 <= bottomRight.x){
-                drawVertical2DLine(pixelX,Math.min(nextPixelY,pixelY),Math.max(nextPixelY,pixelY),color);
-            }
+//            if (pixelX+1 <= bottomRight.x){
+//                drawVertical2DLine(pixelX,Math.min(nextPixelY,pixelY),Math.max(nextPixelY,pixelY),color);
+//            }
             lastPixelY = pixelY;
-        }
-    }
-    private void drawVertical2DLine(int x, int yMin, int yMax, Vector3f color){
-        for(int y = yMin; y<= yMax; y++){
-            drawable.drawPixel(new Vector2f(x,y),color);
         }
     }
 
     public void clearView() {
         drawable.clearCanvas();
         depthTester.clearBuffer();
+    }
+
+    private void drawVertical2DLine(int x, int yMin, int yMax, Vector3f color){
+        for(int y = yMin; y<= yMax; y++){
+            drawable.drawPixel(new Vector2f(x,y),color);
+        }
     }
 
     private Polygon transform3DPolygonToScreenPolygon(Polygon p){

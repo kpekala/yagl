@@ -1,4 +1,4 @@
-package com.example.paint.yagl;
+package com.example.paint.yagl.scene;
 
 import com.example.paint.yagl.model.basic.Vector3f;
 import com.example.paint.yagl.model.complex.Model;

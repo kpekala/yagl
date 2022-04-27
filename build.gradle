@@ -8,12 +8,14 @@ plugins {
 group 'com.example'
 version '1.0-SNAPSHOT'
 
+
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 ext {
-    junitVersion = '5.8.1'
+    junitVersion = '5.8.2'
 }
 
 sourceCompatibility = '15'
@@ -34,9 +36,10 @@ javafx {
 }
 
 dependencies {
-
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+
+    implementation "com.github.mokiat:java-data-front:2.0.1"
 }
 
 test {
