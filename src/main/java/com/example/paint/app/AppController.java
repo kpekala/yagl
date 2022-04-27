@@ -41,7 +41,7 @@ public class AppController {
 
     private void loadObj() {
         try {
-            Polygon[] objPolygons = OBJLoader.load("/sample.obj");
+            Polygon[] objPolygons = OBJLoader.load("/panda.obj");
             Model objModel = new Model(objPolygons, new Vector3f(0,0,10),defaultColor);
             scene.addToScene(objModel);
         } catch (IOException e) {

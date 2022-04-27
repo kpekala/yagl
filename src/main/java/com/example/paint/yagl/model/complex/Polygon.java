@@ -31,12 +31,12 @@ public class Polygon {
         for(int i=0; i<data.length; i++){
             vertices[i] = new Vector3f(data[i][0],data[i][1],data[i][2]);
         }
-        init(vertices.length);
+        init();
     }
 
-    private void init(int n) {
+    private void init() {
+        this.n = vertices.length;
         coefs = new Vector2f[n];
-        this.n = n;
 
         findMinAndMax();
         computeCoefficients();

@@ -4,6 +4,7 @@ module com.example.paint {
     requires java.data.front;
 
     exports com.example.paint.app;
-    exports com.example.paint.yagl;
+    exports com.example.paint.yagl.model.basic;
+    exports com.example.paint.yagl.model.complex;
     opens com.example.paint.app to javafx.fxml;
 }

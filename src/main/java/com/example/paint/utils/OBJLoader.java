@@ -13,7 +13,7 @@ import java.util.List;
 
 public class OBJLoader {
     public static Polygon[] load(String path) throws IOException {
-        URL objFileURL = OBJLoader.class.getResource("/sample.obj");
+        URL objFileURL = OBJLoader.class.getResource(path);
         if(objFileURL == null)
             throw new IOException();
         InputStream in = objFileURL.openStream();

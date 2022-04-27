@@ -54,9 +54,9 @@ public class Drawer {
         }
     }
 
-    public void draw3DPolygon(Polygon p, Vector3f color){
-        p = transform3DPolygonToScreenPolygon(p);
-        if (inFrontOfScreen(p) && inScreen(p)) {
+    public void draw3DPolygon(Polygon polygon, Vector3f color){
+        Polygon p = transform3DPolygonToScreenPolygon(polygon);
+        if ( inScreen(p)) {
             for(int y = (int) Math.rint(Math.max(p.yMin,0)); y<Math.rint(Math.min(p.yMax, size.y)); y++){
                 drawLineInsidePolygon(p, color,y);
             }
@@ -76,12 +76,7 @@ public class Drawer {
         int lastPixelY = (int) Math.rint(coefs[0] * topLeft.x + coefs[1]);
         for (int pixelX = topLeft.x; pixelX<= bottomRight.x; pixelX++){
             int pixelY = (int) Math.rint(coefs[0] * pixelX + coefs[1]);
-            int nextPixelY = (int) Math.rint(coefs[0] * (pixelX+1) + coefs[1]);
-
             drawVertical2DLine(pixelX,Math.min(lastPixelY,pixelY),Math.max(lastPixelY,pixelY),color);
-//            if (pixelX+1 <= bottomRight.x){
-//                drawVertical2DLine(pixelX,Math.min(nextPixelY,pixelY),Math.max(nextPixelY,pixelY),color);
-//            }
             lastPixelY = pixelY;
         }
     }
