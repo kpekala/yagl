@@ -10,6 +10,7 @@ public class ColorUtils {
     public static Vector3f RED = new Vector3f(1,0,0);
     public static Vector3f GREEN = new Vector3f(0,1,0);
     public static Vector3f BLUE = new Vector3f(0,0,1);
+    public static Vector3f BLACK = new Vector3f(0,0,0);
     public static Vector3f randomColor(){
         return new Vector3f(random.nextFloat(), random.nextFloat(), random.nextFloat());
     }

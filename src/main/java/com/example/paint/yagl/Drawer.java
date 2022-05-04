@@ -38,18 +38,18 @@ public class Drawer {
         }
     }
 
-    public void drawModelEdges(Model model){
+    public void drawModelEdges(Model model, Vector3f color){
         for (var polygon: model.polygons){
-            drawPolygonEdges(polygon);
+            drawPolygonEdges(polygon, color);
         }
     }
 
-    public void drawPolygonEdges(Polygon p){
+    public void drawPolygonEdges(Polygon p, Vector3f color){
         Polygon polygon = transform3DPolygonToScreenPolygon(p);
         if (inScreen(polygon)){
             Vector3f[] vs = polygon.vertices;
             for(int i=0; i<vs.length; i++){
-                draw2DLine(vs[i].to2f().toMathIntegers(),vs[(i+1)%vs.length].to2f().toMathIntegers(),defaultColor);
+                draw2DLine(vs[i].to2f().toMathIntegers(),vs[(i+1)%vs.length].to2f().toMathIntegers(),color);
             }
         }
     }

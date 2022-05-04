@@ -9,6 +9,7 @@ import com.example.paint.yagl.Drawer;
 import com.example.paint.yagl.api.JavaFXDrawable;
 import com.example.paint.yagl.model.basic.Vector2f;
 import com.example.paint.yagl.model.basic.Vector3f;
+import com.example.paint.yagl.utils.ColorUtils;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyCode;
@@ -102,7 +103,7 @@ public class AppController {
             drawer.drawModel(cube);
         }
         for (var cube: scene.getDrawableModels()){
-            drawer.drawModelEdges(cube);
+            drawer.drawModelEdges(cube, ColorUtils.BLACK);
         }
     }
 
