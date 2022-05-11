@@ -18,6 +18,8 @@ import javafx.scene.text.Text;
 import java.io.IOException;
 import java.util.Arrays;
 
+import static com.example.paint.yagl.utils.ColorUtils.defaultColor;
+
 
 public class AppController {
 
@@ -29,8 +31,6 @@ public class AppController {
     private final int[] fpss = new int[10];
     private int fpsIndex = 0;
 
-    private Vector3f defaultColor = new Vector3f(0.2f,0.5f,0.8f);
-
     public void initialize() {
         drawer = new Drawer(new JavaFXDrawable(canvas), new Vector2f((float) canvas.getWidth(),(float)canvas.getHeight()));
         try {
@@ -38,14 +38,14 @@ public class AppController {
             scene.addToScene(objModel);
         } catch (IOException e) {
             System.out.println("Error when loading .obj file");
+            System.out.println(e.getMessage());
         }
         mainLoop();
     }
 
     private Model loadObj() throws IOException {
-        Polygon[] objPolygons = OBJLoader.load("/rock/rock.obj");
-        Model objModel = new Model(objPolygons, new Vector3f(0,0,10),defaultColor);
-        return objModel;
+        Polygon[] objPolygons = OBJLoader.load("/rock/rock.obj", "/rock/material.lib");
+        return new Model(objPolygons, new Vector3f(0,0,10),defaultColor);
     }
 
     private void mainLoop() {
