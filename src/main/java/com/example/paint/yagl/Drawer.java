@@ -34,7 +34,7 @@ public class Drawer {
 
     public void drawModel(Model model){
         for (var polygon: model.polygons){
-            draw3DPolygon(polygon,model.getColor());
+            draw3DPolygon(polygon);
         }
     }
 
@@ -54,11 +54,11 @@ public class Drawer {
         }
     }
 
-    public void draw3DPolygon(Polygon polygon, Vector3f color){
+    public void draw3DPolygon(Polygon polygon){
         Polygon p = transform3DPolygonToScreenPolygon(polygon);
         if ( inScreen(p)) {
             for(int y = (int) Math.rint(Math.max(p.yMin,0)); y<Math.rint(Math.min(p.yMax, size.y)); y++){
-                drawLineInsidePolygon(p, color,y);
+                drawLineInsidePolygon(p, p.getColor(),y);
             }
         }
     }

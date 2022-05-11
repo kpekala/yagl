@@ -11,11 +11,13 @@ import java.util.List;
 public class Polygon {
     public final Vector3f[] vertices;
     public Vector2f[] coefs;
-    private int n;
+    public float yMin, yMax;
 
+    private int n;
     private float[] planeCoefs = new float[4];
 
-    public float yMin, yMax;
+    private Vector3f color;
+
 
     public Polygon(Polygon that){
         this.vertices = that.vertices.clone();
@@ -24,6 +26,7 @@ public class Polygon {
         this.coefs = that.coefs.clone();
         this.n = that.n;
         this.planeCoefs = that.planeCoefs;
+        this.color = that.color;
     }
 
     public Polygon(float[][] data){
@@ -32,6 +35,11 @@ public class Polygon {
             vertices[i] = new Vector3f(data[i][0],data[i][1],data[i][2]);
         }
         init();
+    }
+
+    public Polygon(float [][] data, Vector3f color){
+        this(data);
+        this.color = color;
     }
 
     private void init() {
@@ -93,5 +101,13 @@ public class Polygon {
         Vector3f v1 = vertices[edgeIndex];
         Vector3f v2 = vertices[(edgeIndex+1)%n];
         return (y >= v1.y && y <= v2.y) || (y >= v2.y && y <= v1.y);
+    }
+
+    public Vector3f getColor() {
+        return color;
+    }
+
+    public void setColor(Vector3f color) {
+        this.color = color;
     }
 }
