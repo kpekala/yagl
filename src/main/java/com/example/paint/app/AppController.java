@@ -16,7 +16,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 
@@ -32,22 +31,21 @@ public class AppController {
 
     private Vector3f defaultColor = new Vector3f(0.2f,0.5f,0.8f);
 
-    public void initialize(){
+    public void initialize() {
         drawer = new Drawer(new JavaFXDrawable(canvas), new Vector2f((float) canvas.getWidth(),(float)canvas.getHeight()));
-
-        //scene.addToScene(Samples.generateCubeModels(10));
-        loadObj();
+        try {
+            Model objModel = loadObj();
+            scene.addToScene(objModel);
+        } catch (IOException e) {
+            System.out.println("Error when loading .obj file");
+        }
         mainLoop();
     }
 
-    private void loadObj() {
-        try {
-            Polygon[] objPolygons = OBJLoader.load("/panda.obj");
-            Model objModel = new Model(objPolygons, new Vector3f(0,0,10),defaultColor);
-            scene.addToScene(objModel);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private Model loadObj() throws IOException {
+        Polygon[] objPolygons = OBJLoader.load("/rock/rock.obj");
+        Model objModel = new Model(objPolygons, new Vector3f(0,0,10),defaultColor);
+        return objModel;
     }
 
     private void mainLoop() {
