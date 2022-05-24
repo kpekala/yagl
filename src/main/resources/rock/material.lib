@@ -3,7 +3,7 @@
 # File created: 05/11/2022 12:16:41
 
 newmtl Material_49
-	Ka 0.2 0.2 0.2
+	Ka 0.2 0.5 0.8
 	Kd 1 1 1
 	d 1
 	Tr 0

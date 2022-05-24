@@ -44,7 +44,7 @@ public class AppController {
     }
 
     private Model loadObj() throws IOException {
-        Polygon[] objPolygons = OBJLoader.load("/rock/rock.obj", "/rock/material.lib");
+        Polygon[] objPolygons = OBJLoader.load("/panda.obj", "/rock/material.lib");
         return new Model(objPolygons, new Vector3f(0,0,10),defaultColor);
     }
 
@@ -100,9 +100,9 @@ public class AppController {
         for (var cube: scene.getDrawableModels()){
             drawer.drawModel(cube);
         }
-        for (var cube: scene.getDrawableModels()){
-            drawer.drawModelEdges(cube, ColorUtils.BLACK);
-        }
+//        for (var cube: scene.getDrawableModels()){
+//            drawer.drawModelEdges(cube, ColorUtils.BLACK);
+//        }
     }
 
     private void updateFPSCounter(long frameDuration) {

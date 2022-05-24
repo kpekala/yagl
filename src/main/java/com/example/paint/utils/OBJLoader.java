@@ -3,6 +3,7 @@ package com.example.paint.utils;
 
 import com.example.paint.yagl.model.basic.Vector3f;
 import com.example.paint.yagl.model.complex.Polygon;
+import com.example.paint.yagl.utils.ColorUtils;
 import com.mokiat.data.front.parser.*;
 
 import java.io.FileInputStream;
@@ -43,9 +44,10 @@ public class OBJLoader {
         List<OBJFace> faces = mesh.getFaces();
         var material = mtlLibrary.getMaterial(mesh.getMaterialName());
         var aColor = material.getAmbientColor();
-        var color = new Vector3f(aColor.r,aColor.g,aColor.b);
+//        var color = new Vector3f(aColor.r,aColor.g,aColor.b);
         var polygons = new Polygon[faces.size()];
         for (int i=0; i<faces.size(); i++){
+            var color = ColorUtils.randomColor();
             float[][] data = faces.get(i).getReferences().stream().
                     map(ref -> new float[]{vs.get(ref.vertexIndex).x,vs.get(ref.vertexIndex).y,vs.get(ref.vertexIndex).z})
                     .toArray(float[][]::new);
