@@ -9,7 +9,6 @@ import com.example.paint.yagl.Drawer;
 import com.example.paint.yagl.api.JavaFXDrawable;
 import com.example.paint.yagl.model.basic.Vector2f;
 import com.example.paint.yagl.model.basic.Vector3f;
-import com.example.paint.yagl.utils.ColorUtils;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyCode;
@@ -30,6 +29,8 @@ public class AppController {
 
     private final int[] fpss = new int[10];
     private int fpsIndex = 0;
+    private int timeSinceLastFrame = 0;
+    private final int minimumDeltaTime = 5;
 
     public void initialize() {
         drawer = new Drawer(new JavaFXDrawable(canvas), new Vector2f((float) canvas.getWidth(),(float)canvas.getHeight()));
@@ -50,26 +51,23 @@ public class AppController {
 
     private void mainLoop() {
         new Thread(() -> {
+            int deltaTime = 10;
             while (true){
-                onUpdate();
-                try {
-                    Thread.sleep(20);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                long s = System.currentTimeMillis();
+                onUpdate(deltaTime);
+                deltaTime = (int) (System.currentTimeMillis() - s);
             }
         }).start();
     }
 
-    private void onUpdate() {
-        float moveSpeed = 0.1f;
-        long s = System.currentTimeMillis();
+    private void onUpdate(float deltaTime) {
+        float moveSpeed = 0.001f * deltaTime;
 
         if (Input.isPressed(KeyCode.R)) {
-            scene.rotateCubes(new Vector3f(-0.03f,0,0));
+            scene.rotateCubes(new Vector3f(-moveSpeed,0,0));
         }
         if (Input.isPressed(KeyCode.T)){
-            scene.rotateCubes(new Vector3f(0,0.03f,0));
+            scene.rotateCubes(new Vector3f(0,moveSpeed,0));
         }
         if(Input.isPressed(KeyCode.W)){
             scene.moveCubes(new Vector3f(0,0,moveSpeed));
@@ -89,10 +87,15 @@ public class AppController {
         if (Input.isPressed(KeyCode.DOWN)){
             scene.moveCubes(new Vector3f(0,-moveSpeed,0));
         }
+        timeSinceLastFrame += deltaTime;
+        if(timeSinceLastFrame < minimumDeltaTime){
+            return;
+        }
+        timeSinceLastFrame = 0;
 
         Platform.runLater(() ->{
             draw();
-            updateFPSCounter(System.currentTimeMillis() - s);
+            updateFPSCounter((long) deltaTime);
         });
     }
     private void draw() {
@@ -106,8 +109,8 @@ public class AppController {
     }
 
     private void updateFPSCounter(long frameDuration) {
-        double diffSec =  frameDuration / 1000f;
-        int fps = (int) (1/diffSec);
+        System.out.println(frameDuration);
+        int fps = (int) (1000/ frameDuration);
         fpss[fpsIndex++] = fps;
         if (fpsIndex == fpss.length){
             int avg = Arrays.stream(fpss).sum()/fpss.length;
