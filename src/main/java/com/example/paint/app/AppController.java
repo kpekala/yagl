@@ -2,6 +2,7 @@ package com.example.paint.app;
 
 import com.example.paint.utils.Input;
 import com.example.paint.utils.OBJLoader;
+import com.example.paint.yagl.model.Samples;
 import com.example.paint.yagl.model.complex.Model;
 import com.example.paint.yagl.model.complex.Polygon;
 import com.example.paint.yagl.scene.Scene;
@@ -34,8 +35,10 @@ public class AppController {
     public void initialize() {
         drawer = new Drawer(new JavaFXDrawable(canvas), new Vector2f((float) canvas.getWidth(),(float)canvas.getHeight()));
         try {
-            Model objModel = loadObj();
+            Model objModel = loadModelFromFile("/panda.obj", "/rock/material.lib");
+            objModel.move(new Vector3f(0,0.3f,5));
             scene.addToScene(objModel);
+            setUpScene();
         } catch (IOException e) {
             System.out.println("Error when loading .obj file");
             System.out.println(e.getMessage());
@@ -43,9 +46,19 @@ public class AppController {
         mainLoop();
     }
 
-    private Model loadObj() throws IOException {
-        Polygon[] objPolygons = OBJLoader.load("/panda.obj", "/rock/material.lib");
-        return new Model(objPolygons, new Vector3f(0,0,10),defaultColor);
+    private void setUpScene() {
+        Model groundPlane = Samples.plane(ColorUtils.GREEN,1,1);
+        groundPlane.move(Vector3f.forward(5));
+        scene.addToScene(groundPlane);
+        Model wallPlane = Samples.plane(ColorUtils.BLUE, 1, 1);
+        wallPlane.move(Vector3f.forward(6));
+        wallPlane.rotate(new Vector3f((float) (Math.PI/2),0,0));
+        scene.addToScene(wallPlane);
+    }
+
+    private Model loadModelFromFile(String objFileName, String materialFileName) throws IOException {
+        Polygon[] objPolygons = OBJLoader.load(objFileName, materialFileName);
+        return new Model(objPolygons,defaultColor);
     }
 
     private void mainLoop() {

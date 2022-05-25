@@ -5,6 +5,7 @@ import com.example.paint.yagl.model.complex.Model;
 import com.example.paint.yagl.model.complex.Polygon;
 import com.example.paint.yagl.utils.ColorUtils;
 import com.example.paint.yagl.utils.Maths;
+import javafx.scene.PointLight;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,5 +59,16 @@ public class Samples {
             cubes.add(getCubeModel(new Vector3f(x,y,z), ColorUtils.randomColor()));
         }
         return cubes;
+    }
+
+    public static Model plane(Vector3f color, float scaleX, float scaleY){
+        float[][] data = {
+                {1,0,1},
+                {1,0,-1},
+                {-1,0,-1},
+                {-1,0,1}
+        };
+        Polygon planePolygon = new Polygon(data,color);
+        return new Model(new Polygon[]{planePolygon},color);
     }
 }

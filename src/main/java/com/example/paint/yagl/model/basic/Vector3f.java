@@ -32,6 +32,10 @@ public class Vector3f {
         return new Vector3f(x - other.x, y - other.y,z- other.z);
     }
 
+    public static Vector3f forward(float distance){
+        return new Vector3f(0,0,1 * distance);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
