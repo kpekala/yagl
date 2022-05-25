@@ -10,10 +10,13 @@ import com.example.paint.yagl.Drawer;
 import com.example.paint.yagl.api.JavaFXDrawable;
 import com.example.paint.yagl.model.basic.Vector2f;
 import com.example.paint.yagl.model.basic.Vector3f;
+import com.example.paint.yagl.scene.components.Camera;
 import com.example.paint.yagl.utils.ColorUtils;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.robot.Robot;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
@@ -28,6 +31,7 @@ public class AppController {
     public Text fpsCounter;
     private Drawer drawer;
     private final Scene scene = new Scene();
+    private final Camera camera = scene.getCamera();
 
     private final int[] fpss = new int[10];
     private int fpsIndex = 0;
@@ -50,10 +54,21 @@ public class AppController {
         Model groundPlane = Samples.plane(ColorUtils.GREEN,1,1);
         groundPlane.move(Vector3f.forward(5));
         scene.addToScene(groundPlane);
-        Model wallPlane = Samples.plane(ColorUtils.BLUE, 1, 1);
-        wallPlane.move(Vector3f.forward(6));
-        wallPlane.rotate(new Vector3f((float) (Math.PI/2),0,0));
-        scene.addToScene(wallPlane);
+
+        Model wallPlane1 = Samples.plane(ColorUtils.BLUE, 1, 1);
+        wallPlane1.move(new Vector3f(0, 1, 6));
+        wallPlane1.rotate(new Vector3f((float) (Math.PI/2),0,0));
+        scene.addToScene(wallPlane1);
+
+        Model wallPlane2 = Samples.plane(ColorUtils.BLUE, 1, 1);
+        wallPlane2.move(new Vector3f(1, 1, 5));
+        wallPlane2.rotate(new Vector3f(0,0,(float) (Math.PI/2)));
+        scene.addToScene(wallPlane2);
+
+        Model wallPlane3 = Samples.plane(ColorUtils.BLUE, 1, 1);
+        wallPlane3.move(new Vector3f(-1, 1, 5));
+        wallPlane3.rotate(new Vector3f(0,0,(float) (Math.PI/2)));
+        scene.addToScene(wallPlane3);
     }
 
     private Model loadModelFromFile(String objFileName, String materialFileName) throws IOException {
@@ -75,32 +90,44 @@ public class AppController {
     }
 
     private void onUpdate() {
+//        Robot robot = new Robot();
+//        System.out.println(robot.getMousePosition());
         float moveSpeed = 0.1f;
+        float rotateSpeed = 0.01f;
         long s = System.currentTimeMillis();
 
         if (Input.isPressed(KeyCode.R)) {
-            scene.rotateCubes(new Vector3f(-0.03f,0,0));
+            camera.rotate(Vector3f.up(rotateSpeed));
         }
         if (Input.isPressed(KeyCode.T)){
-            scene.rotateCubes(new Vector3f(0,0.03f,0));
+            camera.rotate(Vector3f.down(rotateSpeed));
+        }
+        if (Input.isPressed(KeyCode.Y)){
+            scene.rotateCubes(Vector3f.up(rotateSpeed));
         }
         if(Input.isPressed(KeyCode.W)){
-            scene.moveCubes(new Vector3f(0,0,moveSpeed));
+            camera.move(Vector3f.forward(moveSpeed));
         }
         if (Input.isPressed(KeyCode.S)){
-            scene.moveCubes(new Vector3f(0,0,-moveSpeed));
+            camera.move(Vector3f.back(moveSpeed));
         }
         if(Input.isPressed(KeyCode.A)){
-            scene.moveCubes(new Vector3f(-moveSpeed,0,0));
+            camera.move(Vector3f.left(moveSpeed));
         }
         if (Input.isPressed(KeyCode.D)){
-            scene.moveCubes(new Vector3f(moveSpeed,0,0));
+            camera.move(Vector3f.right(moveSpeed));
         }
         if(Input.isPressed(KeyCode.UP)){
-            scene.moveCubes(new Vector3f(0,moveSpeed,0));
+            camera.rotate(Vector3f.left(rotateSpeed));
         }
         if (Input.isPressed(KeyCode.DOWN)){
-            scene.moveCubes(new Vector3f(0,-moveSpeed,0));
+            camera.rotate(Vector3f.right(rotateSpeed));
+        }
+        if(Input.isPressed(KeyCode.LEFT)){
+            camera.rotate(Vector3f.down(rotateSpeed));
+        }
+        if (Input.isPressed(KeyCode.RIGHT)){
+            camera.rotate(Vector3f.up(rotateSpeed));
         }
 
         Platform.runLater(() ->{

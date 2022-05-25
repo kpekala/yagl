@@ -24,13 +24,23 @@ public class Model {
         }
     }
 
-    public void rotate(Vector3f rotation){
-        Transform.rotateMesh(polygons,rotation,center);
+    public Model(Model that){
+        this(that.polygons,that.center, that.color);
+
+    }
+
+
+    public void rotateAroundPosition(Vector3f rotation, Vector3f position){
+        Transform.rotateMesh(polygons, rotation, position);
+        center = Transform.rotateVertex(center,rotation, position);
     }
 
     public void move(Vector3f direction){
         Transform.move(polygons,direction);
         center = center.add(direction);
+    }
+    public void rotate(Vector3f rotation){
+        Transform.rotateMesh(polygons,rotation,center);
     }
 
     public Vector3f getColor() {
