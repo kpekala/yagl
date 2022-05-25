@@ -8,13 +8,16 @@ public class Model {
     private Vector3f center;
     private Vector3f color;
 
-    private final Vector3f baseCenter = new Vector3f(0,0,0);
+    public Model(Polygon[] polygons, Vector3f color){
+        this(polygons,new Vector3f(0,0,0),color);
+    }
 
     public Model(Polygon[] polygons, Vector3f center, Vector3f color) {
         this.polygons = polygons;
         this.center = center;
         this.color = color;
 
+        Vector3f baseCenter = new Vector3f(0, 0, 0);
         if (!baseCenter.equals(center)){
             Vector3f dirToMove = center.subtract(baseCenter);
             Transform.move(polygons, dirToMove);
