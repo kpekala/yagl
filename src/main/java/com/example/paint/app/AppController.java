@@ -15,6 +15,8 @@ import com.example.paint.yagl.utils.ColorUtils;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.robot.Robot;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
@@ -88,6 +90,8 @@ public class AppController {
     }
 
     private void onUpdate() {
+//        Robot robot = new Robot();
+//        System.out.println(robot.getMousePosition());
         float moveSpeed = 0.1f;
         float rotateSpeed = 0.01f;
         long s = System.currentTimeMillis();
@@ -114,10 +118,16 @@ public class AppController {
             camera.move(Vector3f.right(moveSpeed));
         }
         if(Input.isPressed(KeyCode.UP)){
-            camera.move(Vector3f.up(moveSpeed));
+            camera.rotate(Vector3f.left(rotateSpeed));
         }
         if (Input.isPressed(KeyCode.DOWN)){
-            camera.move(Vector3f.down(moveSpeed));
+            camera.rotate(Vector3f.right(rotateSpeed));
+        }
+        if(Input.isPressed(KeyCode.LEFT)){
+            camera.rotate(Vector3f.down(rotateSpeed));
+        }
+        if (Input.isPressed(KeyCode.RIGHT)){
+            camera.rotate(Vector3f.up(rotateSpeed));
         }
 
         Platform.runLater(() ->{
