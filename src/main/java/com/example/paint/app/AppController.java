@@ -89,13 +89,17 @@ public class AppController {
 
     private void onUpdate() {
         float moveSpeed = 0.1f;
+        float rotateSpeed = 0.01f;
         long s = System.currentTimeMillis();
 
         if (Input.isPressed(KeyCode.R)) {
-            scene.rotateCubes(new Vector3f(-0.03f,0,0));
+            camera.rotate(Vector3f.up(rotateSpeed));
         }
         if (Input.isPressed(KeyCode.T)){
-            scene.rotateCubes(new Vector3f(0,0.03f,0));
+            camera.rotate(Vector3f.down(rotateSpeed));
+        }
+        if (Input.isPressed(KeyCode.Y)){
+            scene.rotateCubes(Vector3f.up(rotateSpeed));
         }
         if(Input.isPressed(KeyCode.W)){
             camera.move(Vector3f.forward(moveSpeed));

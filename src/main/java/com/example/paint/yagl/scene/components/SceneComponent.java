@@ -12,11 +12,19 @@ public abstract class SceneComponent {
     }
     public SceneComponent(){
         this.position = Vector3f.zero();
-        this.position = Vector3f.zero();
+        this.rotation = Vector3f.zero();
     }
 
     public void move(Vector3f direction){
         position = position.add(direction);
+    }
+
+    public void rotate(Vector3f rotation){
+//        this.rotation = this.rotation.add(rotation);
+        var x = (float) (( this.rotation.x + rotation.x) % (Math.PI * 2));
+        var y = (float) (( this.rotation.y + rotation.y) % (Math.PI * 2));
+        var z = (float) (( this.rotation.z + rotation.z) % (Math.PI * 2));
+        this.rotation = new Vector3f(x,y,z);
     }
 
     public Vector3f getPosition() {

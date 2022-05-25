@@ -60,6 +60,11 @@ public class Vector3f {
 
 
     @Override
+    public String toString() {
+        return String.format("(%f, %f, %f)",x,y,z);
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

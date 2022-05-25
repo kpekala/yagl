@@ -10,11 +10,13 @@ import java.util.List;
 public class Scene {
     private final ArrayList<Model> models;
     private Vector3f lastCameraPosition = null;
+    private Vector3f lastCameraRotation = null;
     private final Camera camera;
 
     public Scene(){
         this.camera = new Camera();
         lastCameraPosition = this.camera.getPosition();
+        lastCameraRotation = this.camera.getRotation();
         models = new ArrayList<>();
     }
 
@@ -28,9 +30,17 @@ public class Scene {
 
     public List<Model> getDrawableModels() {
         Vector3f cameraDeltaPosition = camera.getPosition().subtract(lastCameraPosition);
+        Vector3f cameraDeltaRotation = camera.getRotation().subtract(lastCameraRotation);
+
+        System.out.println(cameraDeltaRotation);
+
         lastCameraPosition = camera.getPosition();
+        lastCameraRotation = camera.getRotation();
         for (var model: models){
-            model.move(cameraDeltaPosition.reverse());
+            if (!cameraDeltaPosition.equals(Vector3f.zero()))
+                model.move(cameraDeltaPosition.reverse());
+            if (!cameraDeltaRotation.equals(Vector3f.zero()))
+                model.rotateAroundPosition(cameraDeltaRotation,camera.getPosition());
         }
         return models;
     }
