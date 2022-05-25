@@ -10,6 +10,7 @@ import com.example.paint.yagl.Drawer;
 import com.example.paint.yagl.api.JavaFXDrawable;
 import com.example.paint.yagl.model.basic.Vector2f;
 import com.example.paint.yagl.model.basic.Vector3f;
+import com.example.paint.yagl.scene.components.Camera;
 import com.example.paint.yagl.utils.ColorUtils;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
@@ -28,6 +29,7 @@ public class AppController {
     public Text fpsCounter;
     private Drawer drawer;
     private final Scene scene = new Scene();
+    private final Camera camera = scene.getCamera();
 
     private final int[] fpss = new int[10];
     private int fpsIndex = 0;
@@ -96,22 +98,22 @@ public class AppController {
             scene.rotateCubes(new Vector3f(0,0.03f,0));
         }
         if(Input.isPressed(KeyCode.W)){
-            scene.moveCubes(new Vector3f(0,0,moveSpeed));
+            camera.move(Vector3f.forward(moveSpeed));
         }
         if (Input.isPressed(KeyCode.S)){
-            scene.moveCubes(new Vector3f(0,0,-moveSpeed));
+            camera.move(Vector3f.back(moveSpeed));
         }
         if(Input.isPressed(KeyCode.A)){
-            scene.moveCubes(new Vector3f(-moveSpeed,0,0));
+            camera.move(Vector3f.left(moveSpeed));
         }
         if (Input.isPressed(KeyCode.D)){
-            scene.moveCubes(new Vector3f(moveSpeed,0,0));
+            camera.move(Vector3f.right(moveSpeed));
         }
         if(Input.isPressed(KeyCode.UP)){
-            scene.moveCubes(new Vector3f(0,moveSpeed,0));
+            camera.move(Vector3f.up(moveSpeed));
         }
         if (Input.isPressed(KeyCode.DOWN)){
-            scene.moveCubes(new Vector3f(0,-moveSpeed,0));
+            camera.move(Vector3f.down(moveSpeed));
         }
 
         Platform.runLater(() ->{

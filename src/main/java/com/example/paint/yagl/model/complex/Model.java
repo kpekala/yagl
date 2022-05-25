@@ -24,6 +24,11 @@ public class Model {
         }
     }
 
+    public Model(Model that){
+        this(that.polygons,that.center, that.color);
+
+    }
+
     public void rotate(Vector3f rotation){
         Transform.rotateMesh(polygons,rotation,center);
     }
