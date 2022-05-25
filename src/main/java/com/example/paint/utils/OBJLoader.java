@@ -18,9 +18,9 @@ public class OBJLoader {
         var objModel = loadObjModel(objPath);
         var objToDraw = objModel.getObjects().get(0);
 
-        var mtlLibrary = loadMtlLibrary(mtlPath);
+//        var mtlLibrary = loadMtlLibrary(mtlPath);
         var singleMesh = objToDraw.getMeshes().get(0);
-        return parseMesh(singleMesh, objModel.getVertices(), mtlLibrary);
+        return parseMesh(singleMesh, objModel.getVertices(), null);
     }
 
     private static MTLLibrary loadMtlLibrary(String mtlPath) throws IOException {
@@ -42,8 +42,8 @@ public class OBJLoader {
 
     private static Polygon[] parseMesh(OBJMesh mesh, List<OBJVertex> vs, MTLLibrary mtlLibrary) {
         List<OBJFace> faces = mesh.getFaces();
-        var material = mtlLibrary.getMaterial(mesh.getMaterialName());
-        var aColor = material.getAmbientColor();
+//        var material = mtlLibrary.getMaterial(mesh.getMaterialName());
+//        var aColor = material.getAmbientColor();
 //        var color = new Vector3f(aColor.r,aColor.g,aColor.b);
         var polygons = new Polygon[faces.size()];
         for (int i=0; i<faces.size(); i++){

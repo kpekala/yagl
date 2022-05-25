@@ -32,7 +32,7 @@ public class Transform {
                     newVertex.x*sin(a)+ newVertex.z*cos(a));
         }
         if(rot.z != 0.0f){
-            float a = rot.y;
+            float a = rot.z;
             newVertex = new Vector3f(newVertex.x*cos(a)+ newVertex.y*sin(a),
                     -newVertex.x*sin(a)+ newVertex.y*cos(a),
                     newVertex.z);

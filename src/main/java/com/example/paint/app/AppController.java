@@ -50,10 +50,21 @@ public class AppController {
         Model groundPlane = Samples.plane(ColorUtils.GREEN,1,1);
         groundPlane.move(Vector3f.forward(5));
         scene.addToScene(groundPlane);
-        Model wallPlane = Samples.plane(ColorUtils.BLUE, 1, 1);
-        wallPlane.move(Vector3f.forward(6));
-        wallPlane.rotate(new Vector3f((float) (Math.PI/2),0,0));
-        scene.addToScene(wallPlane);
+
+        Model wallPlane1 = Samples.plane(ColorUtils.BLUE, 1, 1);
+        wallPlane1.move(new Vector3f(0, 1, 6));
+        wallPlane1.rotate(new Vector3f((float) (Math.PI/2),0,0));
+        scene.addToScene(wallPlane1);
+
+        Model wallPlane2 = Samples.plane(ColorUtils.BLUE, 1, 1);
+        wallPlane2.move(new Vector3f(1, 1, 5));
+        wallPlane2.rotate(new Vector3f(0,0,(float) (Math.PI/2)));
+        scene.addToScene(wallPlane2);
+
+        Model wallPlane3 = Samples.plane(ColorUtils.BLUE, 1, 1);
+        wallPlane3.move(new Vector3f(-1, 1, 5));
+        wallPlane3.rotate(new Vector3f(0,0,(float) (Math.PI/2)));
+        scene.addToScene(wallPlane3);
     }
 
     private Model loadModelFromFile(String objFileName, String materialFileName) throws IOException {

@@ -21,7 +21,7 @@ public class Scene {
         this.models.add(model);
     }
 
-    public ArrayList<Model> getDrawableModels() {
+    public List<Model> getDrawableModels() {
         return models;
     }
 
