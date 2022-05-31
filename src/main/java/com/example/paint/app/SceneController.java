@@ -19,12 +19,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import static com.example.paint.yagl.utils.ColorUtils.defaultColor;
 
 
-public class AppController {
+public class SceneController {
 
     public Canvas canvas;
     public Text fpsCounter;
