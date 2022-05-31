@@ -44,13 +44,13 @@ public class Scene {
         return models;
     }
 
-    public void moveCubes(Vector3f vector3f) {
+    public void moveAll(Vector3f vector3f) {
         for(var model: models){
             model.move(vector3f);
         }
     }
 
-    public void rotateCubes(Vector3f vector3f) {
+    public void rotateAll(Vector3f vector3f) {
         for(var model: models){
             model.rotate(vector3f);
         }
