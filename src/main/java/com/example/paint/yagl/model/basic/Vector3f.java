@@ -39,14 +39,14 @@ public class Vector3f {
     public static Vector3f forward(float distance){
         return new Vector3f(0,0,1 * distance);
     }
+    public static Vector3f back(float distance){
+        return new Vector3f(0,0,-1 * distance);
+    }
     public static Vector3f up(float distance){
         return new Vector3f(0,1 * distance,0);
     }
     public static Vector3f down(float distance){
         return new Vector3f(0,-1 * distance,0);
-    }
-    public static Vector3f back(float distance){
-        return new Vector3f(0,0,-1 * distance);
     }
 
     public static Vector3f right(float distance){

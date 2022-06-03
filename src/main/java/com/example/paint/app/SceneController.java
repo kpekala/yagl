@@ -1,5 +1,6 @@
 package com.example.paint.app;
 
+import com.example.paint.utils.FPSCounter;
 import com.example.paint.utils.Input;
 import com.example.paint.utils.OBJLoader;
 import com.example.paint.yagl.model.Samples;
@@ -15,17 +16,14 @@ import com.example.paint.yagl.utils.ColorUtils;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.robot.Robot;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import static com.example.paint.yagl.utils.ColorUtils.defaultColor;
 
 
-public class AppController {
+public class SceneController {
 
     public Canvas canvas;
     public Text fpsCounter;
@@ -33,8 +31,6 @@ public class AppController {
     private final Scene scene = new Scene();
     private final Camera camera = scene.getCamera();
 
-    private final int[] fpss = new int[10];
-    private int fpsIndex = 0;
 
     public void initialize() {
         drawer = new Drawer(new JavaFXDrawable(canvas), new Vector2f((float) canvas.getWidth(),(float)canvas.getHeight()));
@@ -42,7 +38,7 @@ public class AppController {
             Model objModel = loadModelFromFile("/panda.obj", "/rock/material.lib");
             objModel.move(new Vector3f(0,0.3f,5));
             scene.addToScene(objModel);
-            setUpScene();
+            //setUpScene();
         } catch (IOException e) {
             System.out.println("Error when loading .obj file");
             System.out.println(e.getMessage());
@@ -90,49 +86,19 @@ public class AppController {
     }
 
     private void onUpdate() {
-//        Robot robot = new Robot();
-//        System.out.println(robot.getMousePosition());
         float moveSpeed = 0.1f;
-        float rotateSpeed = 0.01f;
+        float rotateSpeed = 0.05f;
         long s = System.currentTimeMillis();
 
-        if (Input.isPressed(KeyCode.R)) {
-            camera.rotate(Vector3f.up(rotateSpeed));
-        }
-        if (Input.isPressed(KeyCode.T)){
-            camera.rotate(Vector3f.down(rotateSpeed));
-        }
-        if (Input.isPressed(KeyCode.Y)){
-            scene.rotateCubes(Vector3f.up(rotateSpeed));
-        }
-        if(Input.isPressed(KeyCode.W)){
-            camera.move(Vector3f.forward(moveSpeed));
-        }
-        if (Input.isPressed(KeyCode.S)){
-            camera.move(Vector3f.back(moveSpeed));
-        }
-        if(Input.isPressed(KeyCode.A)){
-            camera.move(Vector3f.left(moveSpeed));
-        }
-        if (Input.isPressed(KeyCode.D)){
-            camera.move(Vector3f.right(moveSpeed));
-        }
-        if(Input.isPressed(KeyCode.UP)){
-            camera.rotate(Vector3f.left(rotateSpeed));
-        }
-        if (Input.isPressed(KeyCode.DOWN)){
-            camera.rotate(Vector3f.right(rotateSpeed));
-        }
-        if(Input.isPressed(KeyCode.LEFT)){
-            camera.rotate(Vector3f.down(rotateSpeed));
-        }
-        if (Input.isPressed(KeyCode.RIGHT)){
-            camera.rotate(Vector3f.up(rotateSpeed));
-        }
-
+        camera.move(Vector3f.forward(moveSpeed * Input.getAxis(Input.AxisType.VERTICAL)));
+        camera.move(Vector3f.right(moveSpeed * Input.getAxis(Input.AxisType.HORIZONTAL)));
+        camera.move(Vector3f.up(moveSpeed * Input.judge(KeyCode.DIGIT1, KeyCode.DIGIT2)));
+        scene.rotateAll(Vector3f.up(rotateSpeed * Input.judge(KeyCode.Q,KeyCode.E)));
+        scene.rotateAll(Vector3f.right(rotateSpeed * Input.judge(KeyCode.R,KeyCode.T)));
         Platform.runLater(() ->{
             draw();
-            updateFPSCounter(System.currentTimeMillis() - s);
+            var fps = FPSCounter.updateAndGetFPS(System.currentTimeMillis() - s);
+            fpsCounter.setText(fps + " fps");
         });
     }
     private void draw() {
@@ -145,14 +111,4 @@ public class AppController {
 //        }
     }
 
-    private void updateFPSCounter(long frameDuration) {
-        double diffSec =  frameDuration / 1000f;
-        int fps = (int) (1/diffSec);
-        fpss[fpsIndex++] = fps;
-        if (fpsIndex == fpss.length){
-            int avg = Arrays.stream(fpss).sum()/fpss.length;
-            fpsCounter.setText(avg + " fps");
-            fpsIndex = 0;
-        }
-    }
 }
