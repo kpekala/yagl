@@ -9,8 +9,8 @@ import java.util.List;
 
 public class Scene {
     private final ArrayList<Model> models;
-    private Vector3f lastCameraPosition = null;
-    private Vector3f lastCameraRotation = null;
+    private Vector3f lastCameraPosition;
+    private Vector3f lastCameraRotation;
     private final Camera camera;
 
     public Scene(){

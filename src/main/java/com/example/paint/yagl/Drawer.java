@@ -135,8 +135,9 @@ public class Drawer {
     }
 
     private boolean inScreen(Polygon pol) {
-        return Arrays.stream(pol.vertices).anyMatch(p -> p.x >= 0 && p.x <= size.x
-                && p.y >= 0 && p.y <= size.y);
+//        return Arrays.stream(pol.vertices).anyMatch(p -> p.x >= 0 && p.x <= size.x
+//                && p.y >= 0 && p.y <= size.y);
+    return true;
     }
 
     private boolean inFrontOfScreen(Polygon pol){
