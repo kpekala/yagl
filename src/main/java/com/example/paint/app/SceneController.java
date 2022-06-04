@@ -36,7 +36,7 @@ public class SceneController {
         drawer = new Drawer(new JavaFXDrawable(canvas), new Vector2f((float) canvas.getWidth(),(float)canvas.getHeight()));
         try {
             Model objModel = loadModelFromFile("/panda.obj", "/rock/material.lib");
-            objModel.move(new Vector3f(0,0.3f,5));
+            objModel.move(new Vector3f(0,0,5));
             scene.addToScene(objModel);
             //setUpScene();
         } catch (IOException e) {

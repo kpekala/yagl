@@ -46,7 +46,7 @@ public class Drawer {
 
     public void drawPolygonEdges(Polygon p, Vector3f color){
         Polygon polygon = transform3DPolygonToScreenPolygon(p);
-        if (inScreen(polygon)){
+        if (inScreen(polygon) && inFrontOfScreen(p)){
             Vector3f[] vs = polygon.vertices;
             for(int i=0; i<vs.length; i++){
                 draw2DLine(vs[i].to2f().toMathIntegers(),vs[(i+1)%vs.length].to2f().toMathIntegers(),color);
@@ -56,7 +56,7 @@ public class Drawer {
 
     public void draw3DPolygon(Polygon polygon){
         Polygon p = transform3DPolygonToScreenPolygon(polygon);
-        if ( inScreen(p)) {
+        if ( inScreen(p) && inFrontOfScreen(p)) {
             for(int y = (int) Math.rint(Math.max(p.yMin,0)); y<Math.rint(Math.min(p.yMax, size.y)); y++){
                 drawLineInsidePolygon(p, p.getColor(),y);
             }
@@ -131,13 +131,12 @@ public class Drawer {
         // Change coordinates from image Plane(-1, 1) to screen pixels
         float scaleFactor = 600;
         return new Vector3f(canvasCenter.x + v.x * scaleFactor,
-                canvasCenter.y - v.y* scaleFactor, v.z);
+                canvasCenter.y - v.y* scaleFactor, v.z+1/*!!!*/);
     }
 
     private boolean inScreen(Polygon pol) {
-//        return Arrays.stream(pol.vertices).anyMatch(p -> p.x >= 0 && p.x <= size.x
-//                && p.y >= 0 && p.y <= size.y);
-    return true;
+        return Arrays.stream(pol.vertices).anyMatch(p -> p.x >= 0 && p.x <= size.x
+                && p.y >= 0 && p.y <= size.y);
     }
 
     private boolean inFrontOfScreen(Polygon pol){

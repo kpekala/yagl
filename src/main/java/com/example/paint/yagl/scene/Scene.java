@@ -14,7 +14,7 @@ public class Scene {
     private final Camera camera;
 
     public Scene(){
-        this.camera = new Camera(new Vector3f(0,1,-1),Vector3f.zero());
+        this.camera = new Camera(new Vector3f(0,0,0),Vector3f.zero());
         lastCameraPosition = Vector3f.zero();
         lastCameraRotation = Vector3f.zero();
         models = new ArrayList<>();
