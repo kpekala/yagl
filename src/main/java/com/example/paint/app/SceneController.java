@@ -38,7 +38,7 @@ public class SceneController {
             Model objModel = loadModelFromFile("/panda.obj", "/rock/material.lib");
             objModel.move(new Vector3f(0,0,5));
             scene.addToScene(objModel);
-            //setUpScene();
+            setUpScene();
         } catch (IOException e) {
             System.out.println("Error when loading .obj file");
             System.out.println(e.getMessage());
