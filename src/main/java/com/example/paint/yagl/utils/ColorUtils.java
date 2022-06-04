@@ -18,4 +18,9 @@ public class ColorUtils {
     public static Vector3f randomColor(){
         return new Vector3f(random.nextFloat(), random.nextFloat(), random.nextFloat());
     }
+
+    public static Vector3f randomGreyColor(){
+        var s = random.nextFloat()/4 + 0.25f;
+        return new Vector3f(s,s,s);
+    }
 }

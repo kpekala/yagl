@@ -47,7 +47,7 @@ public class OBJLoader {
 //        var color = new Vector3f(aColor.r,aColor.g,aColor.b);
         var polygons = new Polygon[faces.size()];
         for (int i=0; i<faces.size(); i++){
-            var color = ColorUtils.randomColor();
+            var color = ColorUtils.randomGreyColor();
             float[][] data = faces.get(i).getReferences().stream().
                     map(ref -> new float[]{vs.get(ref.vertexIndex).x,vs.get(ref.vertexIndex).y,vs.get(ref.vertexIndex).z})
                     .toArray(float[][]::new);

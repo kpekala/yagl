@@ -8,6 +8,7 @@ import com.example.paint.yagl.utils.Maths;
 import javafx.scene.PointLight;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Samples {
@@ -61,14 +62,21 @@ public class Samples {
         return cubes;
     }
 
-    public static Model plane(Vector3f color, float scaleX, float scaleY){
+    public static Model plane(Vector3f color, Vector3f scale){
         float[][] data = {
                 {1,0,1},
                 {1,0,-1},
                 {-1,0,-1},
                 {-1,0,1}
         };
+        data = scale(data, scale);
         Polygon planePolygon = new Polygon(data,color);
         return new Model(new Polygon[]{planePolygon},color);
     }
+
+    public static float[][] scale(float[][] data, Vector3f scale){
+        return  Arrays.stream(data).map(p -> new float[]{p[0] * scale.x, p[1] * scale.y, p[2] * scale.z})
+                .toArray(float[][]::new);
+    }
+
 }
