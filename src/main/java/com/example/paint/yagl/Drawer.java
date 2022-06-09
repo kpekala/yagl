@@ -31,19 +31,46 @@ public class Drawer {
 
     // Public methods
 
+    /**
+     * Drawing model on user-defined screen.
+     * This method fills polygons on screen with the color of the model.
+     **/
+
     public void drawModel(Model model){
         for (var polygon: model.polygons){
             draw3DPolygon(polygon);
         }
     }
 
+    /**
+     * Drawing model on user-defined screen.
+     * This method draws edges of the model with a color.
+     **/
+
     public void drawModelEdges(Model model, Vector3f color){
         for (var polygon: model.polygons){
-            drawPolygonEdges(polygon, color);
+            draw3DPolygonEdges(polygon, color);
         }
     }
 
-    public void drawPolygonEdges(Polygon p, Vector3f color){
+    /**
+     * Drawing 3D Polygon on user-defined screen.
+     * This method fills polygon on screen with the given color.
+     **/
+    public void draw3DPolygon(Polygon polygon){
+        Polygon p = transform3DPolygonToScreenPolygon(polygon);
+        if ( inScreen(p) && inFrontOfScreen(p)) {
+            for(int y = (int) Math.rint(Math.max(p.yMin,0)); y<Math.rint(Math.min(p.yMax, size.y)); y++){
+                drawLineInsidePolygon(p, p.getColor(),y);
+            }
+        }
+    }
+
+    /**
+     * Drawing 3D edges of the 3D Polygon.
+     * This method draws edges of the polygon with a color.
+     **/
+    public void draw3DPolygonEdges(Polygon p, Vector3f color){
         Polygon polygon = transform3DPolygonToScreenPolygon(p);
         if (inScreen(polygon) && inFrontOfScreen(p)){
             Vector3f[] vs = polygon.vertices;
@@ -53,14 +80,7 @@ public class Drawer {
         }
     }
 
-    public void draw3DPolygon(Polygon polygon){
-        Polygon p = transform3DPolygonToScreenPolygon(polygon);
-        if ( inScreen(p) && inFrontOfScreen(p)) {
-            for(int y = (int) Math.rint(Math.max(p.yMin,0)); y<Math.rint(Math.min(p.yMax, size.y)); y++){
-                drawLineInsidePolygon(p, p.getColor(),y);
-            }
-        }
-    }
+
 
     public void draw2DLine(Vector2i v1, Vector2i v2, Vector3f color){
         var coefs = Maths.get2DLineCoefficients(v1.tof(),v2.tof());
