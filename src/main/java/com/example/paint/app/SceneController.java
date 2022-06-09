@@ -2,6 +2,7 @@ package com.example.paint.app;
 
 import com.example.paint.utils.FPSCounter;
 import com.example.paint.utils.OBJLoader;
+import com.example.paint.yagl.model.ModelGenerator;
 import com.example.paint.yagl.model.complex.Model;
 import com.example.paint.yagl.model.complex.Polygon;
 import com.example.paint.yagl.scene.BaseScene;
@@ -16,6 +17,7 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 
+import static com.example.paint.yagl.model.ModelGenerator.loadModelFromFile;
 import static com.example.paint.yagl.utils.ColorUtils.defaultColor;
 
 
@@ -29,7 +31,7 @@ public class SceneController {
     public void initialize() {
         drawer = new Drawer(new JavaFXDrawable(canvas), new Vector2f((float) canvas.getWidth(),(float)canvas.getHeight()));
         try {
-            Model objModel = loadModelFromFile("/panda.obj", "/rock/material.lib");
+            Model objModel = ModelGenerator.loadModelFromName("panda");
             objModel.move(new Vector3f(0,0,5));
             scene.addToScene(objModel);
         } catch (IOException e) {
@@ -37,11 +39,6 @@ public class SceneController {
             System.out.println(e.getMessage());
         }
         mainLoop();
-    }
-
-    private Model loadModelFromFile(String objFileName, String materialFileName) throws IOException {
-        Polygon[] objPolygons = OBJLoader.load(objFileName, materialFileName);
-        return new Model(objPolygons,defaultColor);
     }
 
     private void mainLoop() {
@@ -71,6 +68,7 @@ public class SceneController {
         for (var cube: scene.getDrawableModels()){
             drawer.drawModel(cube);
         }
+        scene.drawExtra();
     }
 
 }

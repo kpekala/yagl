@@ -64,4 +64,5 @@ public abstract class BaseScene {
 
     public abstract void update();
     public abstract void awake();
+    public abstract void drawExtra();
 }
