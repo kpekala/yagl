@@ -1,17 +1,20 @@
 package com.example.paint.yagl.model;
 
+import com.example.paint.utils.OBJLoader;
 import com.example.paint.yagl.model.basic.Vector3f;
 import com.example.paint.yagl.model.complex.Model;
 import com.example.paint.yagl.model.complex.Polygon;
 import com.example.paint.yagl.utils.ColorUtils;
 import com.example.paint.yagl.utils.Maths;
-import javafx.scene.PointLight;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Samples {
+import static com.example.paint.yagl.utils.ColorUtils.defaultColor;
+
+public class ModelGenerator {
     public static Polygon[] getCube(){
         return new Polygon[]{
                 new Polygon(new float[][]{
@@ -74,9 +77,22 @@ public class Samples {
         return new Model(new Polygon[]{planePolygon},color);
     }
 
-    public static float[][] scale(float[][] data, Vector3f scale){
+    private static float[][] scale(float[][] data, Vector3f scale){
         return  Arrays.stream(data).map(p -> new float[]{p[0] * scale.x, p[1] * scale.y, p[2] * scale.z})
                 .toArray(float[][]::new);
+    }
+
+
+    public static Model loadModelFromFile(String objFileName, String materialFileName) throws IOException {
+        Polygon[] objPolygons = OBJLoader.load(objFileName, materialFileName);
+        return new Model(objPolygons,defaultColor);
+    }
+
+    public static Model loadModelFromName(String name) throws IOException {
+        if (name.equals("panda")){
+            return loadModelFromFile("/panda.obj", "/rock/material.lib");
+        }
+        throw new IllegalArgumentException();
     }
 
 }

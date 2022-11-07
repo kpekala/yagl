@@ -7,17 +7,19 @@ import com.example.paint.yagl.scene.components.Camera;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Scene {
+public abstract class BaseScene {
     private final ArrayList<Model> models;
     private Vector3f lastCameraPosition;
     private Vector3f lastCameraRotation;
-    private final Camera camera;
+    protected final Camera camera;
 
-    public Scene(){
+    public BaseScene(){
         this.camera = new Camera(new Vector3f(0,0,0),Vector3f.zero());
         lastCameraPosition = Vector3f.zero();
         lastCameraRotation = Vector3f.zero();
         models = new ArrayList<>();
+
+        awake();
     }
 
     public void addAllToScene(List<Model> models){
@@ -59,4 +61,8 @@ public class Scene {
     public Camera getCamera() {
         return camera;
     }
+
+    public abstract void update();
+    public abstract void awake();
+    public abstract void drawExtra();
 }

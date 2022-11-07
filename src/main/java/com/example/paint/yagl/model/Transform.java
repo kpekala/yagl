@@ -7,7 +7,6 @@ import com.example.paint.yagl.model.complex.Polygon;
 public class Transform {
 
     public static Polygon perspective(Polygon polygon){
-        float aspect = 4f/3f;
         Polygon p = new Polygon(polygon);
         for(int i=0; i<p.vertices.length; i++){
             Vector3f v = p.vertices[i];
