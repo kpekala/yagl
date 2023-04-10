@@ -37,28 +37,6 @@ public class App extends Application {
         stage.setTitle("YAGL");
         stage.setScene(scene);
         stage.show();
-        //testObj();
-    }
-
-    private void testObj() {
-        URL objFileURL = OBJLoader.class.getResource("/sample.obj");
-        if (objFileURL != null) {
-            try (InputStream in = objFileURL.openStream()) {
-                // Create an OBJParser and parse the resource
-                final IOBJParser parser = new OBJParser();
-                final OBJModel model = parser.parse(in);
-
-                // Use the model representation to get some basic info
-                System.out.println(MessageFormat.format(
-                        "OBJ model has {0} vertices, {1} faces, {2} texture coordinates, and {3} objects.",
-                        model.getVertices().size(),
-                        model.getObjects().get(0).getMeshes().get(0).getFaces().size(),
-                        model.getTexCoords().size(),
-                        model.getObjects().size()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     private void exit() {
@@ -73,6 +51,5 @@ public class App extends Application {
 
     public static void main(String[] args) {
         launch();
-        //System.out.println("Working Directory = " + System.getProperty("user.dir"));
     }
 }

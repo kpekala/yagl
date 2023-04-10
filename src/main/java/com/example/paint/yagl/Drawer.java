@@ -15,7 +15,7 @@ import java.util.List;
 
 public class Drawer {
     private final Drawable drawable;
-    private final Vector3f defaultColor;
+    private final Vector3f defaultColor = new Vector3f(0.2f,0.5f,0.8f);
 
     private final Vector2f size;
     private final Vector2f canvasCenter;
@@ -25,12 +25,16 @@ public class Drawer {
     public Drawer(Drawable drawable, Vector2f size){
         this.drawable = drawable;
         this.size = size;
-        defaultColor = new Vector3f(0.2f,0.5f,0.8f);
         depthTester = new DepthTester((int) size.x, (int) size.y);
         canvasCenter = new Vector2f(size.x/2, size.y/2);
     }
 
     // Public methods
+
+    /**
+     * Drawing model on user-defined screen.
+     * This method fills polygons on screen with the color of the model.
+     **/
 
     public void drawModel(Model model){
         for (var polygon: model.polygons){
@@ -38,15 +42,37 @@ public class Drawer {
         }
     }
 
+    /**
+     * Drawing model on user-defined screen.
+     * This method draws edges of the model with a color.
+     **/
+
     public void drawModelEdges(Model model, Vector3f color){
         for (var polygon: model.polygons){
-            drawPolygonEdges(polygon, color);
+            draw3DPolygonEdges(polygon, color);
         }
     }
 
-    public void drawPolygonEdges(Polygon p, Vector3f color){
+    /**
+     * Drawing 3D Polygon on user-defined screen.
+     * This method fills polygon on screen with the given color.
+     **/
+    public void draw3DPolygon(Polygon polygon){
+        Polygon p = transform3DPolygonToScreenPolygon(polygon);
+        if ( inScreen(p) && inFrontOfScreen(p)) {
+            for(int y = (int) Math.rint(Math.max(p.yMin,0)); y<Math.rint(Math.min(p.yMax, size.y)); y++){
+                drawLineInsidePolygon(p, p.getColor(),y);
+            }
+        }
+    }
+
+    /**
+     * Drawing 3D edges of the 3D Polygon.
+     * This method draws edges of the polygon with a color.
+     **/
+    public void draw3DPolygonEdges(Polygon p, Vector3f color){
         Polygon polygon = transform3DPolygonToScreenPolygon(p);
-        if (inScreen(polygon)){
+        if (inScreen(polygon) && inFrontOfScreen(p)){
             Vector3f[] vs = polygon.vertices;
             for(int i=0; i<vs.length; i++){
                 draw2DLine(vs[i].to2f().toMathIntegers(),vs[(i+1)%vs.length].to2f().toMathIntegers(),color);
@@ -54,14 +80,7 @@ public class Drawer {
         }
     }
 
-    public void draw3DPolygon(Polygon polygon){
-        Polygon p = transform3DPolygonToScreenPolygon(polygon);
-        if ( inScreen(p)) {
-            for(int y = (int) Math.rint(Math.max(p.yMin,0)); y<Math.rint(Math.min(p.yMax, size.y)); y++){
-                drawLineInsidePolygon(p, p.getColor(),y);
-            }
-        }
-    }
+
 
     public void draw2DLine(Vector2i v1, Vector2i v2, Vector3f color){
         var coefs = Maths.get2DLineCoefficients(v1.tof(),v2.tof());
@@ -127,12 +146,20 @@ public class Drawer {
         return new Polygon(p);
     }
 
+    /**
+     * Change coordinates from image Plane(-1, 1) to screen pixels
+     * **/
+
     private Vector3f screenPosition(Vector3f v) {
-        // Change coordinates from image Plane(-1, 1) to screen pixels
         float scaleFactor = 600;
         return new Vector3f(canvasCenter.x + v.x * scaleFactor,
-                canvasCenter.y - v.y* scaleFactor, v.z);
+                canvasCenter.y - v.y* scaleFactor, v.z+1/*!!!*/);
     }
+
+    /**
+     * This method check if polygon's 2d coordinates are in screen
+     * For now, it checks if at least one vertex is in screen
+     * **/
 
     private boolean inScreen(Polygon pol) {
         return Arrays.stream(pol.vertices).anyMatch(p -> p.x >= 0 && p.x <= size.x
