@@ -13,8 +13,8 @@ public abstract class BaseScene {
     private Vector3f lastCameraRotation;
     protected final Camera camera;
 
-    public BaseScene(){
-        this.camera = new Camera(new Vector3f(0,0,0),Vector3f.zero());
+    public BaseScene() {
+        this.camera = new Camera(new Vector3f(0, 0, 0), Vector3f.zero());
         lastCameraPosition = Vector3f.zero();
         lastCameraRotation = Vector3f.zero();
         models = new ArrayList<>();
@@ -22,11 +22,11 @@ public abstract class BaseScene {
         awake();
     }
 
-    public void addAllToScene(List<Model> models){
+    public void addAllToScene(List<Model> models) {
         this.models.addAll(models);
     }
 
-    public void addToScene(Model model){
+    public void addToScene(Model model) {
         this.models.add(model);
     }
 
@@ -36,9 +36,9 @@ public abstract class BaseScene {
 
         lastCameraPosition = camera.getPosition();
         lastCameraRotation = camera.getRotation();
-        for (var model: models){
+        for (var model : models) {
             if (!cameraDeltaRotation.equals(Vector3f.zero()))
-                model.rotateAroundPosition(cameraDeltaRotation,camera.getPosition());
+                model.rotateAroundPosition(cameraDeltaRotation, camera.getPosition());
             if (!cameraDeltaPosition.equals(Vector3f.zero()))
                 model.move(cameraDeltaPosition.reverse());
 
@@ -47,13 +47,13 @@ public abstract class BaseScene {
     }
 
     public void moveAll(Vector3f vector3f) {
-        for(var model: models){
+        for (var model : models) {
             model.move(vector3f);
         }
     }
 
     public void rotateAll(Vector3f vector3f) {
-        for(var model: models){
+        for (var model : models) {
             model.rotate(vector3f);
         }
     }
@@ -63,6 +63,8 @@ public abstract class BaseScene {
     }
 
     public abstract void update();
+
     public abstract void awake();
+
     public abstract void drawExtra();
 }
