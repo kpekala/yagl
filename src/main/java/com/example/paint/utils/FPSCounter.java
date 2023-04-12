@@ -7,8 +7,8 @@ public class FPSCounter {
     private static int fpsIndex = 0;
     private static int avgFPS = 0;
 
-    public static int updateAndGetFPS(long frameDuration) {
-        double diffSec =  frameDuration / 1000f;
+    public static int updateAndGetFPS(long frameDurationMillis) {
+        double diffSec =  frameDurationMillis / 1000f;
         int fps = (int) (1/diffSec);
         fpss[fpsIndex++] = fps;
         if (fpsIndex == fpss.length){
