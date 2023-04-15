@@ -26,8 +26,8 @@ tasks.withType(JavaCompile) {
 }
 
 application {
-    mainModule = 'com.example.paint.app'
-    mainClass = 'com.example.paint.app.App'
+    mainModule = 'kpekala.yagl.app'
+    mainClass = 'kpekala.yagl.app.App'
 }
 
 javafx {

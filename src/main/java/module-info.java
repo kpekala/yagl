@@ -3,11 +3,11 @@ module com.example.paint {
     requires javafx.fxml;
     requires java.data.front;
 
-    exports com.example.paint.app;
-    exports com.example.paint.yagl.model.basic;
-    exports com.example.paint.yagl.model.complex;
-    exports com.example.paint.yagl.scene.components;
-    opens com.example.paint.app to javafx.fxml;
-    exports com.example.paint.yagl.scene;
-    opens com.example.paint.yagl.scene to javafx.fxml;
+    exports kpekala.yagl.app;
+    exports kpekala.yagl.yagl.model.basic;
+    exports kpekala.yagl.yagl.model.complex;
+    exports kpekala.yagl.yagl.scene.components;
+    opens kpekala.yagl.app to javafx.fxml;
+    exports kpekala.yagl.yagl.scene;
+    opens kpekala.yagl.yagl.scene to javafx.fxml;
 }
