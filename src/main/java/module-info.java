@@ -1,4 +1,4 @@
-module com.example.paint {
+module kpekala.yagl {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.data.front;
