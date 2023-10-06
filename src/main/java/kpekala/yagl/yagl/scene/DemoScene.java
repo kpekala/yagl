@@ -7,6 +7,8 @@ import kpekala.yagl.yagl.model.complex.Model;
 import kpekala.yagl.yagl.utils.ColorUtils;
 import javafx.scene.input.KeyCode;
 
+import java.io.IOException;
+
 public class DemoScene extends BaseScene {
 
     float moveSpeed = 0.1f;
@@ -33,6 +35,8 @@ public class DemoScene extends BaseScene {
         wallPlane3.move(new Vector3f(-1, 1, 5));
         wallPlane3.rotate(new Vector3f(0, 0, (float) (Math.PI / 2)));
         addToScene(wallPlane3);
+
+        addPanda();
     }
 
     @Override
@@ -47,6 +51,17 @@ public class DemoScene extends BaseScene {
         camera.move(Vector3f.up(moveSpeed * Input.judge(KeyCode.DIGIT1, KeyCode.DIGIT2)));
         rotateAll(Vector3f.up(rotateSpeed * Input.judge(KeyCode.Q, KeyCode.E)));
         rotateAll(Vector3f.right(rotateSpeed * Input.judge(KeyCode.R, KeyCode.T)));
+    }
+
+    private void addPanda() {
+        try {
+            Model objModel = ModelGenerator.loadModelFromName("panda");
+            objModel.move(new Vector3f(0, 0, 5));
+            addToScene(objModel);
+        } catch (IOException e) {
+            System.out.println("Error when loading .obj file");
+            System.out.println(e.getMessage());
+        }
     }
 
 }

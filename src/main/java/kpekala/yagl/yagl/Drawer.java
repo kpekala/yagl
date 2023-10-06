@@ -7,6 +7,7 @@ import kpekala.yagl.yagl.model.basic.Vector2i;
 import kpekala.yagl.yagl.model.basic.Vector3f;
 import kpekala.yagl.yagl.model.complex.Model;
 import kpekala.yagl.yagl.model.complex.Polygon;
+import kpekala.yagl.yagl.scene.BaseScene;
 import kpekala.yagl.yagl.utils.Maths;
 
 import java.lang.Math;
@@ -22,14 +23,23 @@ public class Drawer {
 
     private final DepthTester depthTester;
 
-    public Drawer(Drawable drawable, Vector2f size) {
+    private final BaseScene scene;
+
+    public Drawer(Drawable drawable, Vector2f size, BaseScene scene) {
         this.drawable = drawable;
         this.size = size;
+        this.scene = scene;
         depthTester = new DepthTester((int) size.x, (int) size.y);
         canvasCenter = new Vector2f(size.x / 2, size.y / 2);
     }
 
-    // Public methods
+    public void drawScene() {
+        clearView();
+        for (Model cube : scene.getDrawableModels()) {
+            drawModel(cube);
+        }
+        scene.drawExtra();
+    }
 
     /**
      * Drawing model on user-defined screen.
