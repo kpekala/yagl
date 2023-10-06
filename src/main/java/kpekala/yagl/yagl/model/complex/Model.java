@@ -43,6 +43,10 @@ public class Model {
         Transform.rotateMesh(polygons,rotation,center);
     }
 
+    public void rotate(Vector3f rotation, Vector3f center) {
+        Transform.rotateMesh(polygons, rotation, center);
+    }
+
     public Vector3f getColor() {
         return color;
     }

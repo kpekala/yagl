@@ -52,9 +52,15 @@ public abstract class BaseScene {
         }
     }
 
-    public void rotateAll(Vector3f vector3f) {
+    public void rotateAll(Vector3f rotation) {
         for (var model : models) {
-            model.rotate(vector3f);
+            model.rotate(rotation);
+        }
+    }
+
+    public void rotateAll(Vector3f rotation, Vector3f rotationCenter) {
+        for (var model : models) {
+            model.rotate(rotation, rotationCenter);
         }
     }
 
