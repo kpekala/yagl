@@ -8,7 +8,7 @@ public class Vector2f {
         this.y = y;
     }
 
-    public Vector2i toMathIntegers(){
+    public Vector2i to2i(){
         return new Vector2i((int) Math.rint(x), (int) Math.rint(y));
     }
 }

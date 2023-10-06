@@ -36,7 +36,7 @@ public class DemoScene extends BaseScene {
         wallPlane3.rotate(new Vector3f(0, 0, (float) (Math.PI / 2)));
         addToScene(wallPlane3);
 
-        addPanda();
+//        addPanda();
     }
 
     @Override

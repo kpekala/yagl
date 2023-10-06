@@ -25,6 +25,10 @@ public class Vector3f {
         return new Vector2f(x,y);
     }
 
+    public Vector2i to2i(){
+        return new Vector2i((int) x, (int) y);
+    }
+
     public Vector3f add(Vector3f other){
         return new Vector3f(x + other.x, y + other.y,z+ other.z);
     }

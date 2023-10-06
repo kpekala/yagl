@@ -73,6 +73,8 @@ public class Drawer {
             for (int y = (int) Math.rint(Math.max(p.yMin, 0)); y < Math.rint(Math.min(p.yMax, size.y)); y++) {
                 drawLineInsidePolygon(p, p.getColor(), y);
             }
+        }else {
+            System.out.println("Siema" + inScreen(p) + inFrontOfScreen(p));
         }
     }
 
@@ -85,7 +87,10 @@ public class Drawer {
         if (inScreen(polygon) && inFrontOfScreen(p)) {
             Vector3f[] vs = polygon.vertices;
             for (int i = 0; i < vs.length; i++) {
-                draw2DLine(vs[i].to2f().toMathIntegers(), vs[(i + 1) % vs.length].to2f().toMathIntegers(), color);
+                Vector3f v1 = vs[i];
+                Vector3f v2 = vs[(i + 1) % vs.length];
+                if (v1.z >= 1 && v2.z >= 1)
+                    draw2DLine(v1.to2i(), v2.to2i(), color);
             }
         }
     }
@@ -171,12 +176,27 @@ public class Drawer {
      **/
 
     private boolean inScreen(Polygon pol) {
-        return Arrays.stream(pol.vertices).anyMatch(p -> p.x >= 0 && p.x <= size.x
-                && p.y >= 0 && p.y <= size.y);
+        float minX = size.x/2, maxX = size.x/2, minY = size.y/2, maxY = size.y/2;
+        for (Vector3f v: pol.vertices){
+            if((v.x >= 0 && v.x <= size.x
+                    && v.y >= 0 && v.y <= size.y))
+                return true;
+            maxY = Math.max(maxY, v.y);
+            minY = Math.min(minY, v.y);
+            maxX = Math.max(maxX, v.x);
+            minX = Math.min(minX, v.x);
+        }
+        if (minX <= 0 && maxX >= size.x)
+            return true;
+        if (minY <= 0 && maxY >= size.y)
+            return true;
+        return false;
+//        return Arrays.stream(pol.vertices).anyMatch(p -> p.x >= 0 && p.x <= size.x
+//                && p.y >= 0 && p.y <= size.y);
     }
 
     private boolean inFrontOfScreen(Polygon pol) {
-        return Arrays.stream(pol.vertices).allMatch(p -> p.z >= 1);
+        return Arrays.stream(pol.vertices).anyMatch(p -> p.z >= 1);
     }
 
 
