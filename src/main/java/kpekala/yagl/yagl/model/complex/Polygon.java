@@ -48,8 +48,8 @@ public class Polygon {
     }
 
     private void findMinAndMax() {
-        yMin = 1000;
-        yMax = -1000;
+        yMin = Integer.MAX_VALUE;
+        yMax = Integer.MIN_VALUE;
         for (var vertex : vertices) {
             yMax = Math.max(yMax, vertex.y);
             yMin = Math.min(yMin, vertex.y);

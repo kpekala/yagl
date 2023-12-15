@@ -22,6 +22,9 @@ public class Model {
             Vector3f dirToMove = center.subtract(baseCenter);
             Transform.move(polygons, dirToMove);
         }
+        for (var polygon : this.polygons) {
+            polygon.setColor(color);
+        }
     }
 
     public Model(Model that){

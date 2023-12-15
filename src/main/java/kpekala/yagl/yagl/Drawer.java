@@ -10,7 +10,6 @@ import kpekala.yagl.yagl.model.complex.Polygon;
 import kpekala.yagl.yagl.scene.BaseScene;
 import kpekala.yagl.yagl.utils.Maths;
 
-import java.lang.Math;
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,8 +34,12 @@ public class Drawer {
 
     public void drawScene() {
         clearView();
-        for (Model cube : scene.getDrawableModels()) {
+        List<Model> models = scene.getDrawableModels();
+        for (Model cube : models) {
             drawModel(cube);
+        }
+        for (Model cube : models) {
+            drawModelEdges(cube, defaultColor);
         }
         scene.drawExtra();
     }
@@ -70,11 +73,10 @@ public class Drawer {
     public void draw3DPolygon(Polygon polygon) {
         Polygon p = transform3DPolygonToScreenPolygon(polygon);
         if (inScreen(p) && inFrontOfScreen(p)) {
+            System.out.println(p.yMin + " " + p.yMax);
             for (int y = (int) Math.rint(Math.max(p.yMin, 0)); y < Math.rint(Math.min(p.yMax, size.y)); y++) {
                 drawLineInsidePolygon(p, p.getColor(), y);
             }
-        }else {
-            System.out.println("Siema" + inScreen(p) + inFrontOfScreen(p));
         }
     }
 
@@ -166,12 +168,14 @@ public class Drawer {
 
     private Vector3f screenPosition(Vector3f v) {
         float scaleFactor = 600;
-        return new Vector3f(canvasCenter.x + v.x * scaleFactor,
+
+        Vector3f newPosition = new Vector3f(canvasCenter.x + v.x * scaleFactor,
                 canvasCenter.y - v.y * scaleFactor, v.z + 1/*!!!*/);
+        return newPosition;
     }
 
     /**
-     * This method check if polygon's 2d coordinates are in screen
+     * This method checks if polygon's 2d coordinates are in screen
      * For now, it checks if at least one vertex is in screen
      **/
 
@@ -186,9 +190,9 @@ public class Drawer {
             maxX = Math.max(maxX, v.x);
             minX = Math.min(minX, v.x);
         }
-        if (minX <= 0 && maxX >= size.x)
+        if ((minX <= 0 && maxX >= size.x ) && Arrays.stream(pol.vertices).anyMatch(vertex -> vertex.y >= 0 && vertex.y < size.y))
             return true;
-        if (minY <= 0 && maxY >= size.y)
+        if (minY <= 0 && maxY >= size.y && Arrays.stream(pol.vertices).anyMatch(vertex -> vertex.x >= 0 && vertex.x < size.x))
             return true;
         return false;
 //        return Arrays.stream(pol.vertices).anyMatch(p -> p.x >= 0 && p.x <= size.x

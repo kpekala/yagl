@@ -1,13 +1,13 @@
 package kpekala.yagl.yagl.scene;
 
+import javafx.scene.input.KeyCode;
 import kpekala.yagl.utils.Input;
 import kpekala.yagl.yagl.model.ModelGenerator;
 import kpekala.yagl.yagl.model.basic.Vector3f;
 import kpekala.yagl.yagl.model.complex.Model;
-import kpekala.yagl.yagl.utils.ColorUtils;
-import javafx.scene.input.KeyCode;
 
 import java.io.IOException;
+import java.util.List;
 
 public class DemoScene extends BaseScene {
 
@@ -17,24 +17,27 @@ public class DemoScene extends BaseScene {
 
     @Override
     public void awake() {
-        Model groundPlane = ModelGenerator.plane(ColorUtils.GREEN, new Vector3f(4, 1, 4));
-        groundPlane.move(Vector3f.forward(5));
-        addToScene(groundPlane);
+//        Model groundPlane = ModelGenerator.plane(ColorUtils.GREEN, new Vector3f(4, 1, 4));
+//        groundPlane.move(Vector3f.forward(5));
+//        addToScene(groundPlane);
 
-        Model wallPlane1 = ModelGenerator.plane(ColorUtils.BLUE, new Vector3f(1, 1, 1));
-        wallPlane1.move(new Vector3f(0, 1, 6));
-        wallPlane1.rotate(new Vector3f((float) (Math.PI / 2), 0, 0));
-        addToScene(wallPlane1);
+        List<Model> cubes = ModelGenerator.generateCubeModels(40);
+        cubes.forEach(this::addToScene);
 
-        Model wallPlane2 = ModelGenerator.plane(ColorUtils.BLUE, new Vector3f(1, 1, 1));
-        wallPlane2.move(new Vector3f(1, 1, 5));
-        wallPlane2.rotate(new Vector3f(0, 0, (float) (Math.PI / 2)));
-        addToScene(wallPlane2);
-
-        Model wallPlane3 = ModelGenerator.plane(ColorUtils.BLUE, new Vector3f(1, 1, 1));
-        wallPlane3.move(new Vector3f(-1, 1, 5));
-        wallPlane3.rotate(new Vector3f(0, 0, (float) (Math.PI / 2)));
-        addToScene(wallPlane3);
+//        Model wallPlane1 = ModelGenerator.plane(ColorUtils.BLUE, new Vector3f(1, 1, 1));
+//        wallPlane1.move(new Vector3f(0, 1, 6));
+//        wallPlane1.rotate(new Vector3f((float) (Math.PI / 2), 0, 0));
+//        addToScene(wallPlane1);
+//
+//        Model wallPlane2 = ModelGenerator.plane(ColorUtils.BLUE, new Vector3f(1, 1, 1));
+//        wallPlane2.move(new Vector3f(1, 1, 5));
+//        wallPlane2.rotate(new Vector3f(0, 0, (float) (Math.PI / 2)));
+//        addToScene(wallPlane2);
+//
+//        Model wallPlane3 = ModelGenerator.plane(ColorUtils.BLUE, new Vector3f(1, 1, 1));
+//        wallPlane3.move(new Vector3f(-1, 1, 5));
+//        wallPlane3.rotate(new Vector3f(0, 0, (float) (Math.PI / 2)));
+//        addToScene(wallPlane3);
 
 //        addPanda();
     }
