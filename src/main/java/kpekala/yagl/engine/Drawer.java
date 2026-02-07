@@ -120,8 +120,7 @@ public class Drawer {
     }
 
     private Polygon transform3DPolygonToScreenPolygon(Polygon p) {
-        Polygon polygonWithPerspective = Transform.perspective(p);
-        return transformToScreenCoordinates(polygonWithPerspective);
+        return transformToScreenCoordinates(Transform.perspective(p));
     }
 
     private void drawLineInsidePolygon(Polygon p, Vector3f color, int screenY) {
