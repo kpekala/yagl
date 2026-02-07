@@ -1,6 +1,6 @@
-package kpekala.yagl.yagl;
+package kpekala.yagl.engine;
 
-import kpekala.yagl.yagl.api.Drawable;
+import kpekala.yagl.engine.api.Drawable;
 import kpekala.yagl.scene.model.Transform;
 import kpekala.yagl.scene.model.basic.Vector2f;
 import kpekala.yagl.scene.model.basic.Vector2i;
@@ -16,7 +16,6 @@ import java.util.List;
 
 public class Drawer {
     private final Drawable drawable;
-    private final Vector3f defaultColor = new Vector3f(0.2f, 0.5f, 0.8f);
 
     private final Vector2f size;
     private final Vector2f canvasCenter;

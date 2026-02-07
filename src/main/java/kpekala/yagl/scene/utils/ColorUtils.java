@@ -14,7 +14,6 @@ public class ColorUtils {
 
     public static  Vector3f defaultColor = new Vector3f(0.2f,0.5f,0.8f);
 
-
     public static Vector3f randomColor(){
         return new Vector3f(random.nextFloat(), random.nextFloat(), random.nextFloat());
     }

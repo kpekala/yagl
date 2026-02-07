@@ -1,4 +1,4 @@
-package kpekala.yagl.yagl;
+package kpekala.yagl.engine;
 
 import kpekala.yagl.scene.model.basic.Vector3f;
 
