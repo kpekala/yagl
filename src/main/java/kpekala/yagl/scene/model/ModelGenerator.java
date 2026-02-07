@@ -1,11 +1,11 @@
-package kpekala.yagl.yagl.model;
+package kpekala.yagl.scene.model;
 
-import kpekala.yagl.utils.OBJLoader;
-import kpekala.yagl.yagl.model.basic.Vector3f;
-import kpekala.yagl.yagl.model.complex.Model;
-import kpekala.yagl.yagl.model.complex.Polygon;
-import kpekala.yagl.yagl.utils.ColorUtils;
-import kpekala.yagl.yagl.utils.Maths;
+import kpekala.yagl.io.OBJLoader;
+import kpekala.yagl.scene.model.basic.Vector3f;
+import kpekala.yagl.scene.model.complex.Model;
+import kpekala.yagl.scene.model.complex.Polygon;
+import kpekala.yagl.scene.utils.ColorUtils;
+import kpekala.yagl.scene.utils.Maths;
 
 import java.io.IOException;
 import java.util.ArrayList;

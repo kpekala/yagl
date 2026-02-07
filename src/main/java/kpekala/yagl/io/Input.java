@@ -1,4 +1,4 @@
-package kpekala.yagl.utils;
+package kpekala.yagl.io;
 
 import kpekala.yagl.app.App;
 import javafx.scene.input.KeyCode;

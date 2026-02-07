@@ -1,10 +1,10 @@
-package kpekala.yagl.yagl.scene;
+package kpekala.yagl.scene.components;
 
-import kpekala.yagl.utils.Input;
-import kpekala.yagl.yagl.model.ModelGenerator;
-import kpekala.yagl.yagl.model.basic.Vector3f;
-import kpekala.yagl.yagl.model.complex.Model;
-import kpekala.yagl.yagl.utils.ColorUtils;
+import kpekala.yagl.io.Input;
+import kpekala.yagl.scene.model.ModelGenerator;
+import kpekala.yagl.scene.model.basic.Vector3f;
+import kpekala.yagl.scene.model.complex.Model;
+import kpekala.yagl.scene.utils.ColorUtils;
 import javafx.scene.input.KeyCode;
 
 import java.io.IOException;
@@ -14,9 +14,8 @@ public class DemoScene extends BaseScene {
     float moveSpeed = 0.1f;
     float rotateSpeed = 0.05f;
 
-
     @Override
-    public void awake() {
+    public void initScene() {
         Model groundPlane = ModelGenerator.plane(ColorUtils.GREEN, new Vector3f(4, 1, 4));
         groundPlane.move(Vector3f.forward(5));
         addToScene(groundPlane);

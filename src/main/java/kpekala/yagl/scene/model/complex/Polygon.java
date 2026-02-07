@@ -1,8 +1,8 @@
-package kpekala.yagl.yagl.model.complex;
+package kpekala.yagl.scene.model.complex;
 
-import kpekala.yagl.yagl.utils.Maths;
-import kpekala.yagl.yagl.model.basic.Vector2f;
-import kpekala.yagl.yagl.model.basic.Vector3f;
+import kpekala.yagl.scene.utils.Maths;
+import kpekala.yagl.scene.model.basic.Vector2f;
+import kpekala.yagl.scene.model.basic.Vector3f;
 
 import java.util.ArrayList;
 import java.util.Collections;

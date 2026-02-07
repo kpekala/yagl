@@ -1,7 +1,7 @@
-package kpekala.yagl.yagl.model.complex;
+package kpekala.yagl.scene.model.complex;
 
-import kpekala.yagl.yagl.model.Transform;
-import kpekala.yagl.yagl.model.basic.Vector3f;
+import kpekala.yagl.scene.model.Transform;
+import kpekala.yagl.scene.model.basic.Vector3f;
 
 public class Model {
     public final Polygon[] polygons;

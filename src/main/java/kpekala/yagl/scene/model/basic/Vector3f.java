@@ -1,4 +1,4 @@
-package kpekala.yagl.yagl.model.basic;
+package kpekala.yagl.scene.model.basic;
 
 import java.util.Objects;
 

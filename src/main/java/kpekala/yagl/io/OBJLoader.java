@@ -1,9 +1,9 @@
-package kpekala.yagl.utils;
+package kpekala.yagl.io;
 
 
 import com.mokiat.data.front.parser.*;
-import kpekala.yagl.yagl.model.complex.Polygon;
-import kpekala.yagl.yagl.utils.ColorUtils;
+import kpekala.yagl.scene.model.complex.Polygon;
+import kpekala.yagl.scene.utils.ColorUtils;
 
 import java.io.IOException;
 import java.io.InputStream;

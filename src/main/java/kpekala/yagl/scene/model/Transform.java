@@ -1,7 +1,7 @@
-package kpekala.yagl.yagl.model;
+package kpekala.yagl.scene.model;
 
-import kpekala.yagl.yagl.model.basic.Vector3f;
-import kpekala.yagl.yagl.model.complex.Polygon;
+import kpekala.yagl.scene.model.basic.Vector3f;
+import kpekala.yagl.scene.model.complex.Polygon;
 
 public class Transform {
 

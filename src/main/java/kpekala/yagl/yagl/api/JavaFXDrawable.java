@@ -1,7 +1,7 @@
 package kpekala.yagl.yagl.api;
 
-import kpekala.yagl.yagl.model.basic.Vector2f;
-import kpekala.yagl.yagl.model.basic.Vector3f;
+import kpekala.yagl.scene.model.basic.Vector2f;
+import kpekala.yagl.scene.model.basic.Vector3f;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;

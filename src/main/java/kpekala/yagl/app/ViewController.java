@@ -6,15 +6,15 @@ import javafx.scene.text.Text;
 import kpekala.yagl.utils.FPSCounter;
 import kpekala.yagl.yagl.Drawer;
 import kpekala.yagl.yagl.api.JavaFXDrawable;
-import kpekala.yagl.yagl.model.basic.Vector2f;
-import kpekala.yagl.yagl.scene.BaseScene;
-import kpekala.yagl.yagl.scene.DemoScene;
+import kpekala.yagl.scene.model.basic.Vector2f;
+import kpekala.yagl.scene.components.BaseScene;
+import kpekala.yagl.scene.components.DemoScene;
 
 
 public class ViewController {
 
     public Canvas canvas;
-    public Text fpsCounter;
+    public Text fpsText;
     private Drawer drawer;
     private final BaseScene scene = new DemoScene();
 
@@ -42,8 +42,7 @@ public class ViewController {
         Platform.runLater(() -> {
             drawer.drawScene();
             var fps = FPSCounter.updateAndGetFPS(System.currentTimeMillis() - s);
-            fpsCounter.setText(fps + " fps");
+            fpsText.setText(fps + " fps");
         });
     }
-
 }

@@ -1,6 +1,6 @@
-package kpekala.yagl.yagl.scene.components;
+package kpekala.yagl.scene.components;
 
-import kpekala.yagl.yagl.model.basic.Vector3f;
+import kpekala.yagl.scene.model.basic.Vector3f;
 
 public class Camera extends SceneComponent{
 

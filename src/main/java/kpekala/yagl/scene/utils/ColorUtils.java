@@ -1,6 +1,6 @@
-package kpekala.yagl.yagl.utils;
+package kpekala.yagl.scene.utils;
 
-import kpekala.yagl.yagl.model.basic.Vector3f;
+import kpekala.yagl.scene.model.basic.Vector3f;
 
 import java.util.Random;
 

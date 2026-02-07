@@ -1,14 +1,14 @@
 package kpekala.yagl.yagl;
 
 import kpekala.yagl.yagl.api.Drawable;
-import kpekala.yagl.yagl.model.Transform;
-import kpekala.yagl.yagl.model.basic.Vector2f;
-import kpekala.yagl.yagl.model.basic.Vector2i;
-import kpekala.yagl.yagl.model.basic.Vector3f;
-import kpekala.yagl.yagl.model.complex.Model;
-import kpekala.yagl.yagl.model.complex.Polygon;
-import kpekala.yagl.yagl.scene.BaseScene;
-import kpekala.yagl.yagl.utils.Maths;
+import kpekala.yagl.scene.model.Transform;
+import kpekala.yagl.scene.model.basic.Vector2f;
+import kpekala.yagl.scene.model.basic.Vector2i;
+import kpekala.yagl.scene.model.basic.Vector3f;
+import kpekala.yagl.scene.model.complex.Model;
+import kpekala.yagl.scene.model.complex.Polygon;
+import kpekala.yagl.scene.components.BaseScene;
+import kpekala.yagl.scene.utils.Maths;
 
 import java.lang.Math;
 import java.util.Arrays;

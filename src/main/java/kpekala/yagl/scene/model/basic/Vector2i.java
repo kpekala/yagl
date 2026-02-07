@@ -1,4 +1,4 @@
-package kpekala.yagl.yagl.model.basic;
+package kpekala.yagl.scene.model.basic;
 
 public class Vector2i {
     public int x,y;

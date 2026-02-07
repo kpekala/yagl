@@ -1,6 +1,6 @@
 package kpekala.yagl.app;
 
-import kpekala.yagl.utils.Input;
+import kpekala.yagl.io.Input;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;

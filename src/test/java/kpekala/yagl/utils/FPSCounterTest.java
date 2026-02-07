@@ -11,9 +11,7 @@ public class FPSCounterTest {
         long frameDurationMillis = 1000;
 
         //Act
-        for (int i = 0; i < 3; i++) {
-            FPSCounter.updateAndGetFPS(frameDurationMillis);
-            FPSCounter.updateAndGetFPS(frameDurationMillis);
+        for (int i = 0; i < 9; i++) {
             FPSCounter.updateAndGetFPS(frameDurationMillis);
         }
         int fps = FPSCounter.updateAndGetFPS(frameDurationMillis);

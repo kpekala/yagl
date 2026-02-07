@@ -1,6 +1,6 @@
-package kpekala.yagl.yagl.model.complex;
+package kpekala.yagl.scene.model.complex;
 
-import kpekala.yagl.yagl.model.basic.Vector3f;
+import kpekala.yagl.scene.model.basic.Vector3f;
 
 public class Triangle {
     public Vector3f[] vs = new Vector3f[3];

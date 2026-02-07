@@ -1,25 +1,20 @@
-package kpekala.yagl.yagl.scene;
+package kpekala.yagl.scene.components;
 
-import kpekala.yagl.yagl.model.basic.Vector3f;
-import kpekala.yagl.yagl.model.complex.Model;
-import kpekala.yagl.yagl.scene.components.Camera;
+import kpekala.yagl.scene.model.basic.Vector3f;
+import kpekala.yagl.scene.model.complex.Model;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseScene {
-    private final ArrayList<Model> models;
-    private Vector3f lastCameraPosition;
-    private Vector3f lastCameraRotation;
+    private final ArrayList<Model> models = new ArrayList<>();
+    private Vector3f lastCameraPosition = Vector3f.zero();
+    private Vector3f lastCameraRotation = Vector3f.zero();;
     protected final Camera camera;
 
     public BaseScene() {
-        this.camera = new Camera(new Vector3f(0, 0, 0), Vector3f.zero());
-        lastCameraPosition = Vector3f.zero();
-        lastCameraRotation = Vector3f.zero();
-        models = new ArrayList<>();
-
-        awake();
+        this.camera = new Camera();
+        initScene();
     }
 
     public void addAllToScene(List<Model> models) {
@@ -31,8 +26,8 @@ public abstract class BaseScene {
     }
 
     public List<Model> getDrawableModels() {
-        Vector3f cameraDeltaPosition = camera.getPosition().subtract(lastCameraPosition);
-        Vector3f cameraDeltaRotation = camera.getRotation().subtract(lastCameraRotation);
+        var cameraDeltaPosition = camera.getPosition().subtract(lastCameraPosition);
+        var cameraDeltaRotation = camera.getRotation().subtract(lastCameraRotation);
 
         lastCameraPosition = camera.getPosition();
         lastCameraRotation = camera.getRotation();
@@ -70,7 +65,7 @@ public abstract class BaseScene {
 
     public abstract void update();
 
-    public abstract void awake();
+    public abstract void initScene();
 
     public abstract void drawExtra();
 }
