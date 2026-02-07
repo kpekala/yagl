@@ -11,12 +11,7 @@ import java.io.IOException;
 
 public class App extends Application {
 
-    private static App instance;
-    public static App getInstance(){
-        return instance;
-    }
     public App(){
-        instance = this;
     }
 
     @Override

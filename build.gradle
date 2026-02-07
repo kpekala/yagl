@@ -26,7 +26,6 @@ tasks.withType(JavaCompile) {
 }
 
 application {
-    mainModule = 'kpekala.yagl.app'
     mainClass = 'kpekala.yagl.app.App'
 }
 
