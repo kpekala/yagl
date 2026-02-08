@@ -5,6 +5,7 @@ import kpekala.yagl.scene.model.basic.Vector3f;
 import kpekala.yagl.scene.model.complex.Model;
 import kpekala.yagl.scene.model.complex.Polygon;
 import kpekala.yagl.scene.utils.ColorUtils;
+import kpekala.yagl.scene.utils.IdGenerator;
 import kpekala.yagl.scene.utils.Maths;
 
 import java.io.IOException;
@@ -72,7 +73,7 @@ public class ModelGenerator {
         };
         data = scale(data, scale);
         Polygon planePolygon = new Polygon(data, color);
-        return new Model(new Polygon[]{planePolygon}, color);
+        return new Model(new Polygon[]{planePolygon}, color, "Plane " + IdGenerator.getNextId());
     }
 
     private static float[][] scale(float[][] data, Vector3f scale) {
