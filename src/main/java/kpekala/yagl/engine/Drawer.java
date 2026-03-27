@@ -16,12 +16,9 @@ import java.util.List;
 
 public class Drawer {
     private final Drawable drawable;
-
     private final Vector2f size;
     private final Vector2f canvasCenter;
-
     private final DepthTester depthTester;
-
     private final BaseScene scene;
 
     public Drawer(Drawable drawable, Vector2f size, BaseScene scene) {

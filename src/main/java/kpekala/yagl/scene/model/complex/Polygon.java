@@ -3,6 +3,8 @@ package kpekala.yagl.scene.model.complex;
 import kpekala.yagl.scene.utils.Maths;
 import kpekala.yagl.scene.model.basic.Vector2f;
 import kpekala.yagl.scene.model.basic.Vector3f;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,6 +17,8 @@ public class Polygon {
 
     private float[] planeCoefs = new float[4];
 
+    @Getter
+    @Setter
     private Vector3f color;
 
 
@@ -38,6 +42,11 @@ public class Polygon {
     public Polygon(float[][] data, Vector3f color) {
         this(data);
         this.color = color;
+    }
+
+    public Polygon(Vector3f[] points) {
+        this.vertices = points;
+        init();
     }
 
     private void init() {
@@ -76,7 +85,7 @@ public class Polygon {
         computeCoefficients();
     }
 
-    public List<Float> findIntersections(int yHeight) {
+    public List<Float> findIntersections(float yHeight) {
         ArrayList<Float> xs = new ArrayList<>();
         for (int i = 0; i < vertices.length; i++) {
             if (isIntersectingWithEdge(i, yHeight)) {
@@ -94,17 +103,10 @@ public class Polygon {
         return xs;
     }
 
-    private boolean isIntersectingWithEdge(int edgeIndex, int y) {
+    private boolean isIntersectingWithEdge(int edgeIndex, float y) {
         Vector3f v1 = vertices[edgeIndex];
         Vector3f v2 = vertices[(edgeIndex + 1) % vertices.length];
         return (y >= v1.y && y <= v2.y) || (y >= v2.y && y <= v1.y);
     }
 
-    public Vector3f getColor() {
-        return color;
-    }
-
-    public void setColor(Vector3f color) {
-        this.color = color;
-    }
 }
