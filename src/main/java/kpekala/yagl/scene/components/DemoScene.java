@@ -1,36 +1,42 @@
 package kpekala.yagl.scene.components;
 
+import javafx.scene.input.KeyCode;
 import kpekala.yagl.io.Input;
 import kpekala.yagl.scene.model.ModelGenerator;
 import kpekala.yagl.scene.model.basic.Vector3f;
 import kpekala.yagl.scene.model.complex.Model;
-import kpekala.yagl.scene.utils.ColorUtils;
-import javafx.scene.input.KeyCode;
+import kpekala.yagl.scene.utils.ColorConfig;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
+@Slf4j
 public class DemoScene extends BaseScene {
 
-    float moveSpeed = 0.1f;
-    float rotateSpeed = 0.05f;
+    private float moveSpeed = 0.1f;
+    private float rotateSpeed = 0.05f;
+
+    public DemoScene(Camera camera, ColorConfig colorConfig) {
+        super(camera, colorConfig);
+    }
 
     @Override
     public void initScene() {
-        Model groundPlane = ModelGenerator.plane(ColorUtils.GREEN, new Vector3f(4, 1, 4));
+        Model groundPlane = ModelGenerator.plane(color.getColor("green1"), new Vector3f(4, 1, 4));
         groundPlane.move(Vector3f.forward(5));
         addToScene(groundPlane);
 
-        Model wallPlane1 = ModelGenerator.plane(ColorUtils.BLUE, new Vector3f(1, 1, 1));
+        Model wallPlane1 = ModelGenerator.plane(color.getColor("blue1"), new Vector3f(1, 1, 1));
         wallPlane1.move(new Vector3f(0, 1, 6));
         wallPlane1.rotate(new Vector3f((float) (Math.PI / 2), 0, 0));
         addToScene(wallPlane1);
 
-        Model wallPlane2 = ModelGenerator.plane(ColorUtils.BLUE, new Vector3f(1, 1, 1));
+        Model wallPlane2 = ModelGenerator.plane(color.getColor("blue2"), new Vector3f(1, 1, 1));
         wallPlane2.move(new Vector3f(1, 1, 5));
         wallPlane2.rotate(new Vector3f(0, 0, (float) (Math.PI / 2)));
         addToScene(wallPlane2);
 
-        Model wallPlane3 = ModelGenerator.plane(ColorUtils.BLUE, new Vector3f(1, 1, 1));
+        Model wallPlane3 = ModelGenerator.plane(color.getColor("blue3"), new Vector3f(1, 1, 1));
         wallPlane3.move(new Vector3f(-1, 1, 5));
         wallPlane3.rotate(new Vector3f(0, 0, (float) (Math.PI / 2)));
         addToScene(wallPlane3);
@@ -58,8 +64,7 @@ public class DemoScene extends BaseScene {
             objModel.move(new Vector3f(0, 0, 5));
             addToScene(objModel);
         } catch (IOException e) {
-            System.out.println("Error when loading .obj file");
-            System.out.println(e.getMessage());
+            log.error("Error when loading .obj file", e);
         }
     }
 

@@ -2,20 +2,19 @@ package kpekala.yagl.scene.components;
 
 import kpekala.yagl.scene.model.basic.Vector3f;
 import kpekala.yagl.scene.model.complex.Model;
+import kpekala.yagl.scene.utils.ColorConfig;
+import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@RequiredArgsConstructor
 public abstract class BaseScene {
     private final ArrayList<Model> models = new ArrayList<>();
     private Vector3f lastCameraPosition = Vector3f.zero();
-    private Vector3f lastCameraRotation = Vector3f.zero();;
+    private Vector3f lastCameraRotation = Vector3f.zero();
     protected final Camera camera;
-
-    public BaseScene() {
-        this.camera = new Camera();
-        initScene();
-    }
+    protected final ColorConfig color;
 
     public void addAllToScene(List<Model> models) {
         this.models.addAll(models);
@@ -57,10 +56,6 @@ public abstract class BaseScene {
         for (var model : models) {
             model.rotate(rotation, rotationCenter);
         }
-    }
-
-    public Camera getCamera() {
-        return camera;
     }
 
     public abstract void update();

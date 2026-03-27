@@ -44,7 +44,7 @@ public class Drawer {
 
     public void drawModel(Model model) {
         for (var polygon : model.polygons) {
-            draw3DPolygon(polygon);
+            drawPolygon(polygon);
         }
     }
 
@@ -63,12 +63,16 @@ public class Drawer {
      * Drawing 3D Polygon on user-defined screen.
      * This method fills polygon on screen with the given color.
      **/
-    public void draw3DPolygon(Polygon polygon) {
-        Polygon p = transform3DPolygonToScreenPolygon(polygon);
-        if (inScreen(p) && inFrontOfScreen(p)) {
-            for (int y = (int) Math.rint(Math.max(p.yMin, 0)); y < Math.rint(Math.min(p.yMax, size.y)); y++) {
-                drawLineInsidePolygon(p, p.getColor(), y);
-            }
+    public void drawPolygon(Polygon polygon) {
+        Polygon screenPolygon = transform3DPolygonToScreenPolygon(polygon);
+        if (isAtLeastOneVertexInScreen(screenPolygon) && inFrontOfScreen(screenPolygon)) {
+            drawScreenPolygon(screenPolygon);
+        }
+    }
+
+    private void drawScreenPolygon(Polygon screenPolygon) {
+        for (int y = (int) Math.rint(Math.max(screenPolygon.yMin, 0)); y < Math.rint(Math.min(screenPolygon.yMax, size.y)); y++) {
+            drawLineInsidePolygon(screenPolygon, screenPolygon.getColor(), y);
         }
     }
 
@@ -78,7 +82,7 @@ public class Drawer {
      **/
     public void draw3DPolygonEdges(Polygon p, Vector3f color) {
         Polygon polygon = transform3DPolygonToScreenPolygon(p);
-        if (inScreen(polygon) && inFrontOfScreen(p)) {
+        if (isAtLeastOneVertexInScreen(polygon) && inFrontOfScreen(p)) {
             Vector3f[] vs = polygon.vertices;
             for (int i = 0; i < vs.length; i++) {
                 draw2DLine(vs[i].to2f().toMathIntegers(), vs[(i + 1) % vs.length].to2f().toMathIntegers(), color);
@@ -165,7 +169,7 @@ public class Drawer {
      * For now, it checks if at least one vertex is in screen
      **/
 
-    private boolean inScreen(Polygon pol) {
+    private boolean isAtLeastOneVertexInScreen(Polygon pol) {
         return Arrays.stream(pol.vertices).anyMatch(p -> p.x >= 0 && p.x <= size.x
                 && p.y >= 0 && p.y <= size.y);
     }

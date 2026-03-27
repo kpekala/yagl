@@ -43,6 +43,7 @@ dependencies {
 
     implementation 'org.slf4j:slf4j-simple:2.0.9'
     implementation "com.github.mokiat:java-data-front:2.0.1"
+    implementation("tools.jackson.core:jackson-databind:3.1.0")
 }
 
 test {

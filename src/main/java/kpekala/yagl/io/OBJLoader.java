@@ -1,19 +1,26 @@
 package kpekala.yagl.io;
 
 
-import com.mokiat.data.front.parser.*;
+import com.mokiat.data.front.parser.IOBJParser;
+import com.mokiat.data.front.parser.MTLLibrary;
+import com.mokiat.data.front.parser.MTLParser;
+import com.mokiat.data.front.parser.OBJFace;
+import com.mokiat.data.front.parser.OBJMesh;
+import com.mokiat.data.front.parser.OBJModel;
+import com.mokiat.data.front.parser.OBJParser;
+import com.mokiat.data.front.parser.OBJVertex;
 import kpekala.yagl.scene.model.complex.Polygon;
 import kpekala.yagl.scene.utils.ColorUtils;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.text.MessageFormat;
 import java.util.List;
 
+@Slf4j
 public class OBJLoader {
 
-    //Example of use
     public static void main(String[] args) {
         URL objFileURL = OBJLoader.class.getResource("/sample.obj");
         if (objFileURL != null) {
@@ -23,12 +30,11 @@ public class OBJLoader {
                 final OBJModel model = parser.parse(in);
 
                 // Use the model representation to get some basic info
-                System.out.println(MessageFormat.format(
-                        "OBJ model has {0} vertices, {1} normals, {2} texture coordinates, and {3} objects.",
+                log.info("OBJ model has {} vertices, {} normals, {} texture coordinates, and {} objects.",
                         model.getVertices().size(),
                         model.getNormals().size(),
                         model.getTexCoords().size(),
-                        model.getObjects().size()));
+                        model.getObjects().size());
             } catch (IOException e) {
                 e.printStackTrace();
             }

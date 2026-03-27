@@ -17,6 +17,12 @@ public class Vector3f {
         this.z = that.z;
     }
 
+    public Vector3f(float[] values){
+        this.x = values[0];
+        this.y = values[1];
+        this.z = values[2];
+    }
+
     public Vector3f copy(){
         return new Vector3f(x,y,z);
     }
